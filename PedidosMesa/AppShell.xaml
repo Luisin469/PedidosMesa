@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="PedidosMesa.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:login="clr-namespace:PedidosMesa.Pages.Login;assembly=PedidosMesa"
+    xmlns:main="clr-namespace:PedidosMesa.Pages.Main;assembly=PedidosMesa"
+    xmlns:welcome="clr-namespace:PedidosMesa.Pages.Welcome;assembly=PedidosMesa"
+    Title="PedidosMesa"
+    Shell.TabBarUnselectedColor="#6C7589"
+    Shell.TabBarForegroundColor="#48A699"
+    Shell.TabBarTitleColor="#48A699"
+    Shell.TabBarBackgroundColor="White">
+
+    <ShellContent
+        ContentTemplate="{DataTemplate login:LoginPage}"
+        Route="LoginPage" />
+
+    <!-- TabBar (visible después de autenticar) -->
+    <TabBar Route="MainTabBar">
+        <Tab Title="Inicio" Icon="home.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate main:MainPage}"
+                Route="HomePage" />
+        </Tab>
+        <Tab Title="Perfil" Icon="user.png">
+            <!-- Usa un icono diferente -->
+            <ShellContent
+                ContentTemplate="{DataTemplate main:MainPage}"
+                Route="ProfilePage" />
+            <!-- Ruta única -->
+        </Tab>
+    </TabBar>
+
+    <ShellContent
+        ContentTemplate="{DataTemplate welcome:WelcomePage}"
+        Route="welcome" />
+
+</Shell>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PedidosMesa.Controls.LabeledEntry"
+             x:Name="thisControl">
+
+    <VerticalStackLayout Spacing="4">
+        <Label
+            Text="{Binding LabelText, Source={x:Reference thisControl}}"
+            FontFamily="NunitoMedium"
+            TextColor="#303030"
+            FontSize="14"
+            HorizontalOptions="Start" />
+
+        <Border
+            Stroke="#8A8A8A"
+            StrokeThickness="1"
+            BackgroundColor="#FFFFFF">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8" />
+            </Border.StrokeShape>
+            <Entry
+                x:Name="InnerEntry"
+                FontFamily="NunitoMedium"
+                TextColor="#303030"
+                FontSize="14"
+                IsPassword="{Binding IsPassword, Source={x:Reference thisControl}}"
+                Text="{Binding Text, Mode=TwoWay, Source={x:Reference thisControl}}" />
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:PedidosMesa.Controls"
+             x:Class="PedidosMesa.Pages.Login.LoginPage"
+             xmlns:dimension="clr-namespace:PedidosMesa.Utils"
+             Background="White"
+             Title=""
+             Shell.FlyoutBehavior="Disabled"
+             Shell.BackgroundColor="White">
+
+    <Shell.TitleView>
+        <Grid Padding="10" ColumnDefinitions="*,Auto">
+            <Label Text="Pedidos mesa" 
+                   TextColor="Black" 
+                   VerticalOptions="Center"
+                   FontSize="24"/>
+            <Label Text="⋮"
+                   FontSize="24"
+                   TextColor="Black"
+                   VerticalOptions="Center"
+                   HorizontalOptions="End">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSettingsClicked" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+    </Shell.TitleView>
+
+    <Grid>
+        <BoxView 
+            HeightRequest="1" 
+            Color="#336F6F6F"
+            HorizontalOptions="Fill"
+            VerticalOptions="Start"/>
+
+        <VerticalStackLayout Margin="0,60,0,0" Padding="{dimension:PixelToMaui Pixels=24}" Spacing="{dimension:PixelToMaui Pixels=24}">
+            <Label 
+                TextColor="Black"
+                FontFamily="NunitoSemiBold"
+                Text="Inicio de sesión"
+                FontSize="{dimension:PixelToMaui Pixels=20}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Start"/>
+
+            <!-- Campo Usuario -->
+            <controls:LabeledEntry x:Name="txtUsuario"
+                                   LabelText="Usuario" />
+
+            <!-- Campo Clave -->
+            <controls:LabeledEntry x:Name="txtClave"
+                                   LabelText="Clave"
+                                   IsPassword="True" />
+
+            <!-- Botón Iniciar Sesión -->
+            <Button Grid.Row="1"
+                    Text="Iniciar Sesión"
+                    FontFamily="NunitoRegular"
+                    TextColor="#F5F5F5"
+                    FontSize="{dimension:PixelToMaui Pixels=16}"
+                    BackgroundColor="#050F37"
+                    VerticalOptions="End"
+                    HorizontalOptions="Fill"
+                    Margin="{dimension:PixelToMaui Pixels=24}"
+                    Clicked="OnLoginClicked"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

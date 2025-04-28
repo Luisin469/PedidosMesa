@@ -11,19 +11,23 @@
 
     <Shell.TitleView>
         <Grid Padding="10" ColumnDefinitions="*,Auto">
-            <Label Text="Pedidos mesa" 
+            <Label Text="Pedidos de mesa" 
                    TextColor="Black" 
                    VerticalOptions="Center"
                    FontSize="24"/>
-            <Label Text="⋮"
+            <ContentView Padding="6" 
+                     BackgroundColor="Transparent"
+                     HorizontalOptions="End"
+                     VerticalOptions="Center">
+                <Label Text="⋮"
                    FontSize="24"
                    TextColor="Black"
                    VerticalOptions="Center"
-                   HorizontalOptions="End">
-                <Label.GestureRecognizers>
+                   HorizontalOptions="Center"/>
+                <ContentView.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnSettingsClicked" />
-                </Label.GestureRecognizers>
-            </Label>
+                </ContentView.GestureRecognizers>
+            </ContentView>
         </Grid>
     </Shell.TitleView>
 

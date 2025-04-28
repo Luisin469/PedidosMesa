@@ -17,7 +17,7 @@ namespace PedidosMesa.Services
             try
             {
                 string baseUrl = Preferences.Get("ApiUrl", "http://192.168.100.6/WebServiceApi/api/wsAPP");
-                var url = $"{baseUrl}/api/wsAPP/login?usuario={loginData.Usuario}&clave={loginData.Clave}";
+                var url = $"{baseUrl}/login?usuario={loginData.Usuario}&clave={loginData.Clave}";
                 var response = await _httpClient.GetAsync(url);
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<MesaResponseModel>>() ?? new List<MesaResponseModel>();

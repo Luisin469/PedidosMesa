@@ -22,7 +22,7 @@ public partial class LoginPage : ContentPage
 
     private async void OnSettingsClicked(object sender, EventArgs e)
     {
-        string currentUrl = Preferences.Get("ApiUrl", "http://192.168.100.6/WebServiceApi/api/wsAPP/");
+        string currentUrl = Preferences.Get("ApiUrl", "http://192.168.100.6/WebServiceApi/api/wsAPP");
 
         string result = await DisplayPromptAsync(
             "Configuración",

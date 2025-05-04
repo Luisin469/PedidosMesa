@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fonts="clr-namespace:Fonts"
+             xmlns:dimension="clr-namespace:PedidosMesa.Utils"
+             xmlns:models="clr-namespace:PedidosMesa.Models"
+             x:Class="PedidosMesa.Pages.Mesa.MesaPage"
+             Title=""
+             Shell.FlyoutBehavior="Disabled"
+             Shell.BackgroundColor="White"
+             Background="White">
+
+    <Shell.TitleView>
+        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+            <Label
+                Text="Mesas"
+                FontSize="{dimension:PixelToMaui Pixels=24}"
+                FontFamily="NunitoSemiBold"
+                TextColor="#404040"/>
+        </HorizontalStackLayout>
+    </Shell.TitleView>
+
+    <Grid Background="#F6F8FA" RowDefinitions="Auto,Auto,Auto,*">
+        <BoxView Grid.Row="0" HeightRequest="1" 
+                 Color="#336F6F6F"
+                 HorizontalOptions="Fill"
+                 VerticalOptions="Start"/>
+
+        <VerticalStackLayout Grid.Row="1" Padding="{dimension:PixelToMaui Pixels=24}">
+            <Border
+                Stroke="#8A8A8A"
+                StrokeThickness="1"
+                BackgroundColor="#FDFDFD">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=8}" />
+                </Border.StrokeShape>
+
+                <Grid ColumnDefinitions="Auto, *">
+                    <Label Grid.Column="0"
+                       Text="{x:Static fonts:FluentUI.search_32_regular}"
+                       FontFamily="IconFont"
+                       FontSize="{dimension:PixelToMaui Pixels=14}"
+                       TextColor="#8A8A8A"
+                       VerticalOptions="Center"
+                       Margin="10,0,0,0"/>
+
+                    <Entry x:Name="search"
+                       Grid.Column="1"
+                       FontFamily="NunitoMedium"
+                       TextColor="#8A8A8A"
+                       HorizontalOptions="Fill"
+                       Placeholder="Buscar mesa"
+                       FontSize="{dimension:PixelToMaui Pixels=14}" />
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+        <Border Grid.Row="2" VerticalOptions="Fill" BackgroundColor="#FFFFFF" StrokeThickness="0" Padding="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels='16,16,0,0'}"/>
+            </Border.StrokeShape>
+
+            <VerticalStackLayout Spacing="{dimension:PixelToMaui Pixels=8}">
+                <VerticalStackLayout.Padding>
+                    <Thickness Left="{dimension:PixelToMaui Pixels=16}" 
+                   Top="{dimension:PixelToMaui Pixels=24}" 
+                   Right="{dimension:PixelToMaui Pixels=16}" 
+                   Bottom="{dimension:PixelToMaui Pixels=8}" />
+                </VerticalStackLayout.Padding>
+
+                <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
+                    <Label 
+                        Grid.Column="0"
+                        Text="{Binding CountMesas, StringFormat='Mesas ({0})'}"
+                        TextColor="#000000"
+                        FontFamily="NunitoSemiBold"
+                        FontSize="{dimension:PixelToMaui Pixels=14}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start" />
+
+                    <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center" HorizontalOptions="End">
+                        <Border
+                            WidthRequest="30"
+                            HeightRequest="30"
+                            Stroke="DarkGreen"
+                            StrokeThickness="1"
+                            BackgroundColor="Green"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="25" />
+                            </Border.StrokeShape>
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnDisponibleClicked"/>
+                            </Border.GestureRecognizers>
+                        </Border>
+
+                        <Border
+                            WidthRequest="30"
+                            HeightRequest="30"
+                            Stroke="DarkRed"
+                            StrokeThickness="1"
+                            BackgroundColor="Red"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="25" />
+                            </Border.StrokeShape>
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnOcupadaClicked"/>
+                            </Border.GestureRecognizers>
+                        </Border>
+
+                        <Border
+                            WidthRequest="30"
+                            HeightRequest="30"
+                            StrokeThickness="0"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="7.5" />
+                            </Border.StrokeShape>
+
+                            <Image Source="refresh.png"
+                               Aspect="AspectFit"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnTodosClicked"/>
+                            </Border.GestureRecognizers>
+                        </Border>
+
+
+                    </HorizontalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+        <ScrollView Grid.Row="3" BackgroundColor="#FFFFFF">
+            <CollectionView ItemsSource="{Binding FilteredMesaData}"
+                ItemsLayout="VerticalList"
+                ItemSizingStrategy="MeasureFirstItem"
+                BackgroundColor="White"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:MesaResponseModel">
+                        <VerticalStackLayout Spacing="0">
+                            <VerticalStackLayout Padding="{dimension:PixelToMaui Pixels=12}"
+                                Spacing="{dimension:PixelToMaui Pixels=4}">
+
+                                <Label Grid.Column="2"
+                                    Text="{Binding Estado}"
+                                    FontFamily="NunitoMedium"
+                                    FontSize="{dimension:PixelToMaui Pixels=12}">
+
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label"
+                                             Binding="{Binding Estado}"
+                                             Value="OCUPADO">
+                                            <Setter Property="TextColor" Value="Red" />
+                                        </DataTrigger>
+
+                                        <DataTrigger TargetType="Label"
+                                             Binding="{Binding Estado}"
+                                             Value="LIBRE">
+                                            <Setter Property="TextColor" Value="Green" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+
+                                <VerticalStackLayout Spacing="{dimension:PixelToMaui Pixels=8}">
+                                    <Grid ColumnDefinitions="*, Auto, Auto">
+                                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Fill">
+                                            <Label Text="{Binding Nombre}"
+                                                   FontFamily="NunitoBold"
+                                                   FontSize="20"
+                                                   TextColor="#303030"/>
+                                        </VerticalStackLayout>
+
+                                        <HorizontalStackLayout Grid.Column="1" Spacing="30" VerticalOptions="Center">
+                                            <ImageButton x:Name="todosButton1"
+                                                         Source="edit.png"
+                                                         WidthRequest="10"
+                                                         HeightRequest="10"
+                                                         Aspect="AspectFit"
+                                                Clicked="OnTodosClicked" />
+
+                                            <ImageButton x:Name="ocupadaButton1"
+                                                Source="check.png"
+                                                WidthRequest="15"
+                                                HeightRequest="15"
+                                                Clicked="OnOcupadaClicked" />
+                                        </HorizontalStackLayout>
+
+                                        <HorizontalStackLayout Grid.Column="2" Spacing="30" VerticalOptions="Center">
+                                            <Label Text="   "/>
+                                        </HorizontalStackLayout>
+                                    </Grid>
+                                </VerticalStackLayout>
+
+
+                            </VerticalStackLayout>
+                            <BoxView HeightRequest="{dimension:PixelToMaui Pixels=1}" 
+                                    Color="#F1F2F6"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="End"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

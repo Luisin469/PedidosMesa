@@ -1,5 +1,5 @@
 ﻿using PedidosMesa.Pages.Login;
-using PedidosMesa.Pages.Main;
+using PedidosMesa.Pages.Mesa;
 using PedidosMesa.Pages.Welcome;
 
 namespace PedidosMesa
@@ -9,9 +9,9 @@ namespace PedidosMesa
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute("Welcome", typeof(WelcomePage));
-            Routing.RegisterRoute("HomePage", typeof(MainPage));
+            Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+            Routing.RegisterRoute(nameof(MesaPage), typeof(MesaPage));
 
         }
     }

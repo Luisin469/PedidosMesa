@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Handlers;
+using PedidosMesa.Models;
 using PedidosMesa.Pages.Login;
+using PedidosMesa.Pages.Mesa;
 using PedidosMesa.Services;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
@@ -30,10 +32,13 @@ namespace PedidosMesa
             builder.Services.AddHttpClient();
 
             builder.Services.AddSingleton<ILoginService, LoginService>();
+            builder.Services.AddSingleton<IDataService>(DataService.Instance);
+
+            builder.Services.AddTransient<MesaViewModel>();
+
+            builder.Services.AddTransient<MesaPage>();
 
             builder.Services.AddTransient<LoginPage>();
-
-
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

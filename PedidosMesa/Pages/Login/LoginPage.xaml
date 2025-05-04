@@ -14,13 +14,13 @@
             <Label Text="Pedidos de mesa" 
                    TextColor="Black" 
                    VerticalOptions="Center"
-                   FontSize="24"/>
+                   FontSize="{dimension:PixelToMaui Pixels=24}"/>
             <ContentView Padding="6" 
                      BackgroundColor="Transparent"
                      HorizontalOptions="End"
                      VerticalOptions="Center">
                 <Label Text="⋮"
-                   FontSize="24"
+                   FontSize="{dimension:PixelToMaui Pixels=24}"
                    TextColor="Black"
                    VerticalOptions="Center"
                    HorizontalOptions="Center"/>

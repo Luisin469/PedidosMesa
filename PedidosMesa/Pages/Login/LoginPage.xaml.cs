@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using PedidosMesa.Models;
 using PedidosMesa.Services;
 
@@ -41,7 +42,7 @@ public partial class LoginPage : ContentPage
 
     private async void OnLoginClicked(object sender, EventArgs e)
     {
-        if (ValidateLogin())
+        if (await ValidateLogin())
         {
             LoginRequestMiodel login = new LoginRequestMiodel()
             {
@@ -49,23 +50,44 @@ public partial class LoginPage : ContentPage
                 Clave = txtClave.Text
             };
             List<MesaResponseModel> mesaData = await _loginService.Login(login);
+
+            if (mesaData != null && mesaData.Count() > 0)
+            {
+                DataService.Instance.MesaData = mesaData;
+
+                await Shell.Current.GoToAsync("//MesaPage");
+            }
+            else
+            {
+                await DisplayAlert("Advertencia", "No tiene mesas configuradas.", "Ok");
+            }
         }
     }
 
-    private bool ValidateLogin()
+    private async Task<bool> ValidateLogin()
     {
         if (string.IsNullOrWhiteSpace(txtUsuario.Text))
         {
-            DisplayAlert("Advertencia", "Debe ingresar el usuario.", "Ok");
+            await DisplayAlert("Advertencia", "Debe ingresar el usuario.", "Ok");
             return false;
         }
 
         if (string.IsNullOrWhiteSpace(txtClave.Text))
         {
-            DisplayAlert("Advertencia", "Debe ingresar la clave.", "Ok");
+            await DisplayAlert("Advertencia", "Debe ingresar la clave.", "Ok");
             return false;
         }
 
         return true;
+    }
+
+    private static double PixelToMaui(double pixels)
+    {
+        var escala = DeviceDisplay.Current.MainDisplayInfo.Density;
+
+        if (escala == 0)
+            return pixels; // Si Density no está disponible, usa el valor original
+
+        return (pixels * escala) / DeviceDisplay.Current.MainDisplayInfo.Density;
     }
 }

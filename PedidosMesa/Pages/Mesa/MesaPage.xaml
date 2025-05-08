@@ -45,12 +45,13 @@
                        Margin="10,0,0,0"/>
 
                     <Entry x:Name="search"
-                       Grid.Column="1"
-                       FontFamily="NunitoMedium"
-                       TextColor="#8A8A8A"
-                       HorizontalOptions="Fill"
-                       Placeholder="Buscar mesa"
-                       FontSize="{dimension:PixelToMaui Pixels=14}" />
+                           Grid.Column="1"
+                           FontFamily="NunitoMedium"
+                           TextColor="#8A8A8A"
+                           HorizontalOptions="Fill"
+                           Placeholder="Buscar mesa"
+                           FontSize="{dimension:PixelToMaui Pixels=14}" 
+                           TextChanged="search_TextChanged"/>
                 </Grid>
             </Border>
         </VerticalStackLayout>
@@ -135,15 +136,13 @@
                                 <TapGestureRecognizer Tapped="OnTodosClicked"/>
                             </Border.GestureRecognizers>
                         </Border>
-
-
                     </HorizontalStackLayout>
                 </Grid>
             </VerticalStackLayout>
         </Border>
 
         <ScrollView Grid.Row="3" BackgroundColor="#FFFFFF">
-            <CollectionView ItemsSource="{Binding FilteredMesaData}"
+            <CollectionView ItemsSource="{Binding MesasFiltradas}"
                 ItemsLayout="VerticalList"
                 ItemSizingStrategy="MeasureFirstItem"
                 BackgroundColor="White"
@@ -184,18 +183,18 @@
                                         </VerticalStackLayout>
 
                                         <HorizontalStackLayout Grid.Column="1" Spacing="30" VerticalOptions="Center">
-                                            <ImageButton x:Name="todosButton1"
+                                            <ImageButton x:Name="btnProducto"
                                                          Source="edit.png"
                                                          WidthRequest="10"
                                                          HeightRequest="10"
                                                          Aspect="AspectFit"
-                                                Clicked="OnTodosClicked" />
+                                                Clicked="OnProductoClicked" />
 
-                                            <ImageButton x:Name="ocupadaButton1"
+                                            <ImageButton x:Name="btnFinalizar"
                                                 Source="check.png"
                                                 WidthRequest="15"
                                                 HeightRequest="15"
-                                                Clicked="OnOcupadaClicked" />
+                                                Clicked="OnFinalizarClicked" />
                                         </HorizontalStackLayout>
 
                                         <HorizontalStackLayout Grid.Column="2" Spacing="30" VerticalOptions="Center">

@@ -1,31 +1,47 @@
-using PedidosMesa.Models;
+using PedidosMesa.Services;
+using PedidosMesa.ViewModels;
 
 namespace PedidosMesa.Pages.Mesa
 {
     public partial class MesaPage : ContentPage
     {
-        private readonly MesaViewModel _viewModel;
+        private MesaViewModel viewModel;
 
-        public MesaPage(MesaViewModel viewModel)
+        public MesaPage()
         {
             InitializeComponent();
-            _viewModel = viewModel;
-            BindingContext = _viewModel;
+            viewModel = new MesaViewModel(DataService.Instance);
+            BindingContext = viewModel;
         }
 
-        private async void OnDisponibleClicked(object sender, EventArgs e)
+        private void search_TextChanged(object sender, TextChangedEventArgs e)
         {
-            await _viewModel.AplicarFiltroAsync("Libre");
+            viewModel.SearchText = e.NewTextValue;
         }
 
-        private async void OnOcupadaClicked(object sender, EventArgs e)
+        private void OnDisponibleClicked(object sender, EventArgs e)
         {
-            await _viewModel.AplicarFiltroAsync("Ocupado");
+            viewModel.EstablecerFiltroEstado("LIBRE");
         }
 
-        private async void OnTodosClicked(object sender, EventArgs e)
+        private void OnOcupadaClicked(object sender, EventArgs e)
         {
-            await _viewModel.AplicarFiltroAsync(null);
+            viewModel.EstablecerFiltroEstado("OCUPADO");
+        }
+
+        private void OnTodosClicked(object sender, EventArgs e)
+        {
+            viewModel.EstablecerFiltroEstado(null);
+        }
+
+        private void OnProductoClicked(object sender, EventArgs e)
+        {
+            // Implementar funcionalidad si aplica
+        }
+
+        private void OnFinalizarClicked(object sender, EventArgs e)
+        {
+            // Implementar funcionalidad si aplica
         }
     }
 }

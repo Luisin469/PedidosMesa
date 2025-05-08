@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using PedidosMesa.Models;
 using PedidosMesa.Services;
 
@@ -6,13 +5,14 @@ namespace PedidosMesa.Pages.Login;
 
 public partial class LoginPage : ContentPage
 {
+    private readonly IDataService _dataService;
     private readonly ILoginService _loginService;
 
-    public LoginPage(ILoginService loginService)
+    public LoginPage(ILoginService loginService, IDataService dataService)
     {
         InitializeComponent();
-
         _loginService = loginService;
+        _dataService = dataService;
 
         Shell.SetBackButtonBehavior(this, new BackButtonBehavior
         {
@@ -20,6 +20,32 @@ public partial class LoginPage : ContentPage
             IsVisible = false
         });
     }
+
+    private async void OnLoginClicked(object sender, EventArgs e)
+    {
+        if (await ValidateLogin())
+        {
+            var login = new LoginRequestMiodel
+            {
+                Usuario = txtUsuario.Text,
+                Clave = txtClave.Text
+            };
+
+            var mesaData = await _loginService.Login(login);
+
+            if (mesaData != null && mesaData.Count > 0)
+            {
+                _dataService.SetMesas(mesaData);
+
+                await Shell.Current.GoToAsync("//MesaPage");
+            }
+            else
+            {
+                await DisplayAlert("Advertencia", "No tiene mesas configuradas.", "Ok");
+            }
+        }
+    }
+
 
     private async void OnSettingsClicked(object sender, EventArgs e)
     {
@@ -40,30 +66,6 @@ public partial class LoginPage : ContentPage
         }
     }
 
-    private async void OnLoginClicked(object sender, EventArgs e)
-    {
-        if (await ValidateLogin())
-        {
-            LoginRequestMiodel login = new LoginRequestMiodel()
-            {
-                Usuario = txtUsuario.Text,
-                Clave = txtClave.Text
-            };
-            List<MesaResponseModel> mesaData = await _loginService.Login(login);
-
-            if (mesaData != null && mesaData.Count() > 0)
-            {
-                DataService.Instance.MesaData = mesaData;
-
-                await Shell.Current.GoToAsync("//MesaPage");
-            }
-            else
-            {
-                await DisplayAlert("Advertencia", "No tiene mesas configuradas.", "Ok");
-            }
-        }
-    }
-
     private async Task<bool> ValidateLogin()
     {
         if (string.IsNullOrWhiteSpace(txtUsuario.Text))
@@ -81,13 +83,4 @@ public partial class LoginPage : ContentPage
         return true;
     }
 
-    private static double PixelToMaui(double pixels)
-    {
-        var escala = DeviceDisplay.Current.MainDisplayInfo.Density;
-
-        if (escala == 0)
-            return pixels; // Si Density no está disponible, usa el valor original
-
-        return (pixels * escala) / DeviceDisplay.Current.MainDisplayInfo.Density;
-    }
 }

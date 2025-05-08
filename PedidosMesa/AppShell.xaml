@@ -5,7 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:login="clr-namespace:PedidosMesa.Pages.Login;assembly=PedidosMesa"
     xmlns:main="clr-namespace:PedidosMesa.Pages.Mesa;assembly=PedidosMesa"
-    xmlns:welcome="clr-namespace:PedidosMesa.Pages.Welcome;assembly=PedidosMesa"
     Title="PedidosMesa"
     Shell.TabBarUnselectedColor="#6C7589"
     Shell.TabBarForegroundColor="#48A699"
@@ -19,9 +18,5 @@
     <ShellContent
         ContentTemplate="{DataTemplate main:MesaPage}"
         Route="MesaPage" />
-
-    <ShellContent
-        ContentTemplate="{DataTemplate welcome:WelcomePage}"
-        Route="WelcomePage" />
 
 </Shell>

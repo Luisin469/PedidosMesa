@@ -10,20 +10,31 @@ namespace PedidosMesa
     {
         protected override void OnCreate(Bundle? savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
-#if ANDROID
-            // Cambiar el color de la barra de estado (status bar)
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+            try
             {
-                Window?.SetStatusBarColor(Android.Graphics.Color.ParseColor("#FFFFFF"));
+                // Llamada a la implementación base
+                base.OnCreate(savedInstanceState);
 
-                // Esto cambia los íconos de la barra de estado a oscuros (útil si tu fondo es claro)
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+                // Tu código adicional
+#if ANDROID
+                // Cambiar el color de la barra de estado (status bar)
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
                 {
-                    Window.DecorView.SystemUiVisibility = (StatusBarVisibility)SystemUiFlags.LightStatusBar;
+                    Window?.SetStatusBarColor(Android.Graphics.Color.ParseColor("#FFFFFF"));
+
+                    // Esto cambia los íconos de la barra de estado a oscuros (útil si tu fondo es claro)
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+                    {
+                        Window.DecorView.SystemUiVisibility = (StatusBarVisibility)SystemUiFlags.LightStatusBar;
+                    }
                 }
-            }
 #endif
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error en OnCreate: {ex.Message}");
+                throw;
+            }
         }
     }
 }

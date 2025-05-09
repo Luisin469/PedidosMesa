@@ -1,91 +1,99 @@
-﻿using PedidosMesa.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using PedidosMesa.Models;
 using PedidosMesa.Services;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace PedidosMesa.ViewModels
 {
-    public class MesaViewModel : INotifyPropertyChanged
+    public partial class MesaViewModel : ObservableObject
     {
         private readonly IDataService _dataService;
 
         private List<MesaResponseModel> _todasLasMesas;
-        private string _estadoFiltro = null;
 
-        private ObservableCollection<MesaResponseModel> _mesasFiltradas = new();
-        public ObservableCollection<MesaResponseModel> MesasFiltradas
-        {
-            get => _mesasFiltradas;
-            set
-            {
-                if (_mesasFiltradas != value)
-                {
-                    _mesasFiltradas = value;
-                    OnPropertyChanged(nameof(MesasFiltradas));
-                }
-            }
-        }
+        private CancellationTokenSource _debounceCts;
 
-        private string _searchText;
-        public string SearchText
-        {
-            get => _searchText;
-            set
-            {
-                if (_searchText != value)
-                {
-                    _searchText = value;
-                    OnPropertyChanged(nameof(SearchText));
-                    FiltrarMesas();
-                }
-            }
-        }
+        [ObservableProperty]
+        private string estadoFiltro;
 
-        public int CountMesas => MesasFiltradas?.Count ?? 0;
+        [ObservableProperty]
+        private string searchText;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        [ObservableProperty]
+        private ObservableCollection<MesaResponseModel> mesasFiltradas = new();
+
+        [ObservableProperty]
+        private int countMesas;
+
+        [ObservableProperty]
+        private bool isSearchNotEmpty;
 
         public MesaViewModel(IDataService dataService)
         {
             _dataService = dataService;
             _todasLasMesas = _dataService.GetMesas();
-
-            // Llenamos una vez, sin reemplazar la colección
-            foreach (var mesa in _todasLasMesas)
-            {
-                MesasFiltradas.Add(mesa);
-            }
-        }
-
-        public void EstablecerFiltroEstado(string estado)
-        {
-            _estadoFiltro = estado;
             FiltrarMesas();
         }
+
+        [RelayCommand]
+        private void ClearSearch()
+        {
+            SearchText = string.Empty;
+        }
+
+        partial void OnSearchTextChanged(string value)
+        {
+            DebounceFiltrarMesas();
+        }
+
+        partial void OnEstadoFiltroChanged(string value) => FiltrarMesas();
+
+        [RelayCommand]
+        private void FiltrarLibre() => EstadoFiltro = "LIBRE";
+
+        [RelayCommand]
+        private void FiltrarOcupado() => EstadoFiltro = "OCUPADO";
+
+        [RelayCommand]
+        private void FiltrarTodos() => EstadoFiltro = null;
 
         private void FiltrarMesas()
         {
             var filtradas = _todasLasMesas
                 .Where(m =>
                     (string.IsNullOrWhiteSpace(SearchText) || m.Nombre.Contains(SearchText, StringComparison.OrdinalIgnoreCase)) &&
-                    (string.IsNullOrWhiteSpace(_estadoFiltro) || m.Estado == _estadoFiltro))
+                    (string.IsNullOrWhiteSpace(EstadoFiltro) || m.Estado == EstadoFiltro))
                 .ToList();
 
-            // Limpiamos la lista y agregamos los elementos filtrados
-            MesasFiltradas.Clear();
-
-            foreach (var mesa in filtradas)
+            if (!filtradas.SequenceEqual(MesasFiltradas))
             {
-                MesasFiltradas.Add(mesa);
+                MesasFiltradas.Clear();
+                filtradas.ForEach(m => MesasFiltradas.Add(m));
+                CountMesas = MesasFiltradas.Count;
+                IsSearchNotEmpty = !string.IsNullOrWhiteSpace(SearchText);
             }
-
-            // Notificamos que la propiedad CountMesas ha cambiado
-            OnPropertyChanged(nameof(CountMesas));
         }
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        private async void DebounceFiltrarMesas()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            _debounceCts?.Cancel();
+            _debounceCts = new CancellationTokenSource();
+            var token = _debounceCts.Token;
+
+            try
+            {
+                await Task.Delay(2000, token);
+
+                if (!token.IsCancellationRequested)
+                {
+                    FiltrarMesas();
+                    OnPropertyChanged(nameof(IsSearchNotEmpty));
+                }
+            }
+            catch (TaskCanceledException)
+            {
+            }
         }
     }
 }

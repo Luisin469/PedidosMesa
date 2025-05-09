@@ -3,16 +3,22 @@ using CommunityToolkit.Mvvm.Input;
 using PedidosMesa.Models;
 using PedidosMesa.Services;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace PedidosMesa.ViewModels
 {
     public partial class MesaViewModel : ObservableObject
     {
         private readonly IDataService _dataService;
+        private readonly ILoginService _loginService;
 
         private List<MesaResponseModel> _todasLasMesas;
 
         private CancellationTokenSource _debounceCts;
+
+        [ObservableProperty]
+        private bool isLoading;
 
         [ObservableProperty]
         private string estadoFiltro;
@@ -29,11 +35,12 @@ namespace PedidosMesa.ViewModels
         [ObservableProperty]
         private bool isSearchNotEmpty;
 
-        public MesaViewModel(IDataService dataService)
+        public MesaViewModel(IDataService dataService, ILoginService loginService)
         {
             _dataService = dataService;
+            _loginService = loginService;
             _todasLasMesas = _dataService.GetMesas();
-            FiltrarMesas();
+            _ = FiltrarMesasAsync();
         }
 
         [RelayCommand]
@@ -47,7 +54,15 @@ namespace PedidosMesa.ViewModels
             DebounceFiltrarMesas();
         }
 
-        partial void OnEstadoFiltroChanged(string value) => FiltrarMesas();
+        partial void OnEstadoFiltroChanged(string value)
+        {
+            _ = OnEstadoFiltroChangedAsync(value);
+        }
+
+        private async Task OnEstadoFiltroChangedAsync(string value)
+        {
+            await Task.Run(() => FiltrarMesasAsync());
+        }
 
         [RelayCommand]
         private void FiltrarLibre() => EstadoFiltro = "LIBRE";
@@ -56,10 +71,25 @@ namespace PedidosMesa.ViewModels
         private void FiltrarOcupado() => EstadoFiltro = "OCUPADO";
 
         [RelayCommand]
-        private void FiltrarTodos() => EstadoFiltro = null;
-
-        private void FiltrarMesas()
+        private async Task FiltrarTodos()
         {
+            var login = _dataService.GetLogin();
+            var mesasActualizadas = await _loginService.Login(login);
+
+            if (mesasActualizadas != null)
+            {
+                _todasLasMesas = mesasActualizadas;
+                _dataService.SetMesas(mesasActualizadas);
+            }
+
+            EstadoFiltro = null;
+            await Task.Run(() => FiltrarMesasAsync());
+        }
+
+        private async Task FiltrarMesasAsync()
+        {
+            IsLoading = true;
+
             var filtradas = _todasLasMesas
                 .Where(m =>
                     (string.IsNullOrWhiteSpace(SearchText) || m.Nombre.Contains(SearchText, StringComparison.OrdinalIgnoreCase)) &&
@@ -73,6 +103,7 @@ namespace PedidosMesa.ViewModels
                 CountMesas = MesasFiltradas.Count;
                 IsSearchNotEmpty = !string.IsNullOrWhiteSpace(SearchText);
             }
+            IsLoading = false;
         }
 
         private async void DebounceFiltrarMesas()
@@ -87,8 +118,7 @@ namespace PedidosMesa.ViewModels
 
                 if (!token.IsCancellationRequested)
                 {
-                    FiltrarMesas();
-                    OnPropertyChanged(nameof(IsSearchNotEmpty));
+                    await Task.Run(() => FiltrarMesasAsync());
                 }
             }
             catch (TaskCanceledException)

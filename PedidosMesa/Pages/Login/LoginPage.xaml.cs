@@ -21,32 +21,6 @@ public partial class LoginPage : ContentPage
         });
     }
 
-    private async void OnLoginClicked(object sender, EventArgs e)
-    {
-        if (await ValidateLogin())
-        {
-            var login = new LoginRequestMiodel
-            {
-                Usuario = txtUsuario.Text,
-                Clave = txtClave.Text
-            };
-
-            var mesaData = await _loginService.Login(login);
-
-            if (mesaData != null && mesaData.Count > 0)
-            {
-                _dataService.SetMesas(mesaData);
-
-                await Shell.Current.GoToAsync("//MesaPage");
-            }
-            else
-            {
-                await DisplayAlert("Advertencia", "No tiene mesas configuradas.", "Ok");
-            }
-        }
-    }
-
-
     private async void OnSettingsClicked(object sender, EventArgs e)
     {
         string currentUrl = Preferences.Get("ApiUrl", "http://192.168.100.6/WebServiceApi/api/wsAPP");
@@ -63,6 +37,40 @@ public partial class LoginPage : ContentPage
         {
             Preferences.Set("ApiUrl", result.Trim());
             await DisplayAlert("Éxito", "URL guardada correctamente.", "OK");
+        }
+    }
+
+    private async void OnLoginClicked(object sender, EventArgs e)
+    {
+        if (await ValidateLogin())
+        {
+            if (await RealizarLoginAsync())
+            {
+                await Shell.Current.GoToAsync("//MesaPage");
+            }
+        }
+    }
+
+    public async Task<bool> RealizarLoginAsync()
+    {
+        LoginRequestMiodel login = new LoginRequestMiodel
+        {
+            Usuario = txtUsuario.Text,
+            Clave = txtClave.Text
+        };
+
+        List<MesaResponseModel> mesaData = await _loginService.Login(login);
+
+        if (mesaData != null && mesaData.Count > 0)
+        {
+            _dataService.SetMesas(mesaData);
+            _dataService.SetLogin(login);
+            return true;
+        }
+        else
+        {
+            await DisplayAlert("Advertencia", "No tiene mesas configuradas.", "Ok");
+            return false;
         }
     }
 

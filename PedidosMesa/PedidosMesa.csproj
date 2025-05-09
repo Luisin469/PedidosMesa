@@ -88,6 +88,9 @@
 	  <MauiXaml Update="Pages\Mesa\MesaPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\PedidoMesa\PedidoMesaPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

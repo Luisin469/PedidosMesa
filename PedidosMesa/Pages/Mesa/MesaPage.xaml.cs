@@ -1,14 +1,18 @@
-using PedidosMesa.Services;
 using PedidosMesa.ViewModels;
 
 namespace PedidosMesa.Pages.Mesa
 {
     public partial class MesaPage : ContentPage
     {
-        public MesaPage()
+        public MesaPage(MesaViewModel viewModel)
         {
             InitializeComponent();
-            BindingContext = new MesaViewModel(DataService.Instance);
+            BindingContext = viewModel;
+        }
+
+        private async void OnProductoClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("//PedidoMesaPage");
         }
     }
 }

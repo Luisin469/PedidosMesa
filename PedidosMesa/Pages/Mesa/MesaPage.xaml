@@ -92,41 +92,31 @@
                         HorizontalOptions="Start" />
 
                     <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center" HorizontalOptions="End">
-                        <Border
-                            WidthRequest="30"
-                            HeightRequest="30"
-                            Stroke="DarkGreen"
-                            StrokeThickness="1"
-                            BackgroundColor="Green"
+                        <Button 
+                            Text="Libre"
+                            BackgroundColor="#B4F0B4"
+                            TextColor="#388E3C"
+                            Padding="10,10"
+                            FontFamily="NunitoMedium"
+                            CornerRadius="25"
+                            Command="{Binding FiltrarLibreCommand}"
                             HorizontalOptions="Center"
-                            VerticalOptions="Center">
+                            VerticalOptions="Center"
+                            HeightRequest="{dimension:PixelToMaui Pixels=35}"
+                            WidthRequest="{dimension:PixelToMaui Pixels=90}"/>
 
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="25" />
-                            </Border.StrokeShape>
-
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding FiltrarLibreCommand}" />
-                            </Border.GestureRecognizers>
-                        </Border>
-
-                        <Border
-                            WidthRequest="30"
-                            HeightRequest="30"
-                            Stroke="DarkRed"
-                            StrokeThickness="1"
-                            BackgroundColor="Red"
+                        <Button 
+                            Text="Ocupado"
+                            BackgroundColor="#FFAA9F"
+                            TextColor="#D32F2F"
+                            Padding="10,6"
+                            FontFamily="NunitoMedium"
+                            CornerRadius="25"
+                            Command="{Binding FiltrarOcupadoCommand}"
                             HorizontalOptions="Center"
-                            VerticalOptions="Center">
-
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="25" />
-                            </Border.StrokeShape>
-
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding FiltrarOcupadoCommand}" />
-                            </Border.GestureRecognizers>
-                        </Border>
+                            VerticalOptions="Center"
+                            HeightRequest="{dimension:PixelToMaui Pixels=35}"
+                            WidthRequest="{dimension:PixelToMaui Pixels=90}"/>
 
                         <Border
                             WidthRequest="30"
@@ -195,23 +185,20 @@
                                                    TextColor="#303030"/>
                                         </VerticalStackLayout>
 
-                                        <HorizontalStackLayout Grid.Column="1" Spacing="30" VerticalOptions="Center">
+                                        <HorizontalStackLayout Grid.Column="1" Spacing="30" VerticalOptions="Center" Padding="0,0,20,0">
                                             <ImageButton x:Name="btnProducto"
-                                                         Source="edit.png"
-                                                         WidthRequest="10"
-                                                         HeightRequest="10"
+                                                         Source="edit2.png"
+                                                         WidthRequest="{dimension:PixelToMaui Pixels=5}"
+                                                         HeightRequest="{dimension:PixelToMaui Pixels=5}"
                                                          Aspect="AspectFit"
-                                                         Padding="0"
-                                                         Margin="0"
-                                                         BackgroundColor="Transparent"/>
+                                                         BackgroundColor="Transparent"
+                                                         Clicked="OnProductoClicked" />
 
                                             <ImageButton x:Name="btnFinalizar"
-                                                         Source="check.png"
-                                                         WidthRequest="10"
-                                                         HeightRequest="10"
+                                                         Source="finish.png"
+                                                         WidthRequest="{dimension:PixelToMaui Pixels=5}"
+                                                         HeightRequest="{dimension:PixelToMaui Pixels=5}"
                                                          Aspect="AspectFit"
-                                                         Padding="0"
-                                                         Margin="0"
                                                          BackgroundColor="Transparent" />
                                         </HorizontalStackLayout>
                                     </Grid>
@@ -229,6 +216,22 @@
 
             </CollectionView>
         </ScrollView>
-    </Grid>
+        <Grid x:Name="LoadingOverlay"
+              BackgroundColor="#80000000"
+              IsVisible="{Binding IsLoading}"
+              VerticalOptions="Fill"
+              HorizontalOptions="Fill"
+              Grid.RowSpan="4"
+              ZIndex="99"
+              InputTransparent="False">
 
+            <ActivityIndicator 
+                IsRunning="{Binding IsLoading}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Color="White"
+                WidthRequest="50"
+                HeightRequest="50" />
+        </Grid>
+    </Grid>
 </ContentPage>

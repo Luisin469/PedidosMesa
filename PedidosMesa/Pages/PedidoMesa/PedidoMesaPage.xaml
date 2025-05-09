@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fonts="clr-namespace:Fonts"
+             xmlns:dimension="clr-namespace:PedidosMesa.Utils"
+             x:Class="PedidosMesa.Pages.PedidoMesa.PedidoMesaPage"             
+             Title="Productos"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.BackgroundColor="White"
+             Background="White">
+    
+</ContentPage>

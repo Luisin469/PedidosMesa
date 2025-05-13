@@ -53,7 +53,7 @@ public partial class LoginPage : ContentPage
 
     public async Task<bool> RealizarLoginAsync()
     {
-        LoginRequestMiodel login = new LoginRequestMiodel
+        LoginRequestModel login = new LoginRequestModel
         {
             Usuario = txtUsuario.Text,
             Clave = txtClave.Text

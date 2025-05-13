@@ -1,6 +1,6 @@
 ﻿namespace PedidosMesa.Models
 {
-    public class LoginRequestMiodel
+    public class LoginRequestModel
     {
         private string _usuario;
         private string _clave;

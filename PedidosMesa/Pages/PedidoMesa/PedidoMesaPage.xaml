@@ -3,10 +3,138 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:fonts="clr-namespace:Fonts"
              xmlns:dimension="clr-namespace:PedidosMesa.Utils"
-             x:Class="PedidosMesa.Pages.PedidoMesa.PedidoMesaPage"             
-             Title="Productos"
+             x:Class="PedidosMesa.Pages.PedidoMesa.PedidoMesaPage"
+             xmlns:models="clr-namespace:PedidosMesa.Models"
+             Title="Pedido"
              Shell.FlyoutBehavior="Disabled"
              Shell.BackgroundColor="White"
              Background="White">
-    
+
+    <Shell.TitleView>
+        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+            <Label
+                Text="Productos"
+                FontSize="{dimension:PixelToMaui Pixels=24}"
+                FontFamily="NunitoSemiBold"
+                TextColor="#404040"/>
+        </HorizontalStackLayout>
+    </Shell.TitleView>
+
+    <Grid Background="#F6F8FA" RowDefinitions="Auto,Auto,Auto,*">
+        <BoxView Grid.Row="0" HeightRequest="1" 
+             Color="#336F6F6F"
+             HorizontalOptions="Fill"
+             VerticalOptions="Start"/>
+
+        <VerticalStackLayout Grid.Row="1" Padding="{dimension:PixelToMaui Pixels=24}">
+            <Border
+            Stroke="#8A8A8A"
+            StrokeThickness="1"
+            BackgroundColor="#FDFDFD">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=8}" />
+                </Border.StrokeShape>
+
+                <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                    <Label Grid.Column="0"
+                       Text="{x:Static fonts:FluentUI.search_48_regular}"
+                       FontFamily="IconFont"
+                       FontSize="{dimension:PixelToMaui Pixels=14}"
+                       TextColor="#8A8A8A"
+                       VerticalOptions="Center"
+                       Margin="10,0,0,0"/>
+
+                    <Entry Text="{Binding SearchText, Mode=TwoWay}"
+                       Grid.Column="1"
+                       FontFamily="NunitoMedium"
+                       TextColor="#8A8A8A"
+                       HorizontalOptions="Fill"
+                       Placeholder="Buscar producto"
+                       FontSize="{dimension:PixelToMaui Pixels=14}" />
+
+                    <Label Grid.Column="2"
+                       Text="{x:Static fonts:FluentUI.dismiss_32_regular}"
+                       FontFamily="IconFont"
+                       FontSize="{dimension:PixelToMaui Pixels=14}"
+                       TextColor="#8A8A8A"
+                       VerticalOptions="Center"
+                       Margin="0,0,10,0"
+                       IsVisible="{Binding IsSearchNotEmpty}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ClearSearchCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+        <CollectionView Grid.Row="3"
+                BackgroundColor="#FFFFFF"
+                ItemsSource="{Binding ProductosFiltrados}"
+                SelectionMode="None"
+                RemainingItemsThreshold="3"
+                RemainingItemsThresholdReached="CollectionView_RemainingItemsThresholdReached">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ProductoResponseModel">
+                    <Border Stroke="#8A8A8A" BackgroundColor="White" Padding="10" Margin="10" StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=8}" />
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" Padding="0">
+
+                            <Label Grid.Row="0" Grid.Column="0" 
+                           Text="{Binding Descripcion}" 
+                           FontSize="16" 
+                           TextColor="#333" 
+                           FontFamily="NunitoBold" />
+
+                            <HorizontalStackLayout Grid.RowSpan="2" Grid.Column="1" 
+                                           Spacing="10" VerticalOptions="Center">
+                                <Button Text="-" 
+                                Command="{Binding DisminuirCantidadCommand}" 
+                                FontSize="18" 
+                                WidthRequest="35" 
+                                HeightRequest="35"
+                                BackgroundColor="Red" />
+
+                                <Label Text="{Binding Cantidad}" 
+                               VerticalOptions="Center" 
+                               FontSize="18"
+                               HorizontalOptions="Center" />
+
+                                <Button Text="+" 
+                                Command="{Binding AumentarCantidadCommand}" 
+                                FontSize="18" 
+                                WidthRequest="35" 
+                                HeightRequest="35"
+                                BackgroundColor="LightGreen" />
+                            </HorizontalStackLayout>
+
+                            <Label Grid.Row="1" Grid.Column="0" 
+                           Text="{Binding Precio, StringFormat='Precio: {0:C}'}" 
+                           FontSize="14" 
+                           TextColor="#666" 
+                           FontFamily="NunitoMedium" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Grid x:Name="LoadingOverlay"
+              BackgroundColor="#80000000"
+              IsVisible="{Binding IsLoading}"
+              VerticalOptions="Fill"
+              HorizontalOptions="Fill"
+              Grid.RowSpan="4"
+              ZIndex="99"
+              InputTransparent="False">
+
+            <ActivityIndicator 
+                IsRunning="{Binding IsLoading}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Color="White"
+                WidthRequest="50"
+                HeightRequest="50" />
+        </Grid>
+    </Grid>
 </ContentPage>

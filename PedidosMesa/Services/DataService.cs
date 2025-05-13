@@ -6,21 +6,22 @@ namespace PedidosMesa.Services
     {
         private static DataService _instance;
 
-        public LoginRequestMiodel LoginData { get; set; }
+        public LoginRequestModel LoginData { get; set; }
         public List<MesaResponseModel> MesaData { get; set; }
+        public List<ProductoResponseModel> ProductoData { get; set; }
 
         public static DataService Instance => _instance ??= new DataService();
 
         private DataService() { }
 
-        public void SetLogin(LoginRequestMiodel login)
+        public void SetLogin(LoginRequestModel login)
         {
             LoginData = login;
         }
 
-        public LoginRequestMiodel GetLogin()
+        public LoginRequestModel GetLogin()
         {
-            return LoginData ?? new LoginRequestMiodel();
+            return LoginData ?? new LoginRequestModel();
         }
 
         public void SetMesas(List<MesaResponseModel> mesas)
@@ -31,6 +32,16 @@ namespace PedidosMesa.Services
         public List<MesaResponseModel> GetMesas()
         {
             return MesaData ?? new List<MesaResponseModel>();
+        }
+
+        public void SetProductos(List<ProductoResponseModel> productos)
+        {
+            ProductoData = productos;
+        }
+
+        public List<ProductoResponseModel> GetProductos()
+        {
+            return ProductoData ?? new List<ProductoResponseModel>();
         }
     }
 }

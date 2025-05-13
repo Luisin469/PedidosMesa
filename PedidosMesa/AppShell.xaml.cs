@@ -1,5 +1,6 @@
 ﻿using PedidosMesa.Pages.Login;
 using PedidosMesa.Pages.Mesa;
+using PedidosMesa.Pages.PedidoMesa;
 
 namespace PedidosMesa
 {
@@ -10,6 +11,7 @@ namespace PedidosMesa
             InitializeComponent();
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(MesaPage), typeof(MesaPage));
+            Routing.RegisterRoute(nameof(PedidoMesaPage), typeof(PedidoMesaPage));
         }
     }
 }

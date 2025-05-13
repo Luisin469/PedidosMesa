@@ -31,9 +31,12 @@ namespace PedidosMesa
             builder.Services.AddHttpClient();
             builder.Services.AddSingleton<IDataService>(DataService.Instance);
             builder.Services.AddSingleton<ILoginService, LoginService>();
+            builder.Services.AddSingleton<IPedidoMesaService, PedidoMesaService>();
             builder.Services.AddSingleton<MesaPage>();
 
+            builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<MesaViewModel>();
+            builder.Services.AddTransient<PedidoMesaViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

@@ -3,8 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using PedidosMesa.Models;
 using PedidosMesa.Services;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using System.Xml.Linq;
 
 namespace PedidosMesa.ViewModels
 {
@@ -14,6 +12,7 @@ namespace PedidosMesa.ViewModels
         private readonly ILoginService _loginService;
 
         private List<MesaResponseModel> _todasLasMesas;
+        private List<MesaResponseModel> _todasLasMesasFiltradas;
 
         private CancellationTokenSource _debounceCts;
 
@@ -34,6 +33,12 @@ namespace PedidosMesa.ViewModels
 
         [ObservableProperty]
         private bool isSearchNotEmpty;
+
+        private int _itemsPorPagina = 10;
+        private int _paginaActual = 0;
+        private bool _isCargandoMas = false;
+
+        public IRelayCommand CargarMasMesasCommand => new RelayCommand(async () => await CargarMasMesasAsync());
 
         public MesaViewModel(IDataService dataService, ILoginService loginService)
         {
@@ -90,19 +95,45 @@ namespace PedidosMesa.ViewModels
         {
             IsLoading = true;
 
-            var filtradas = _todasLasMesas
+            _todasLasMesasFiltradas = _todasLasMesas
                 .Where(m =>
                     (string.IsNullOrWhiteSpace(SearchText) || m.Nombre.Contains(SearchText, StringComparison.OrdinalIgnoreCase)) &&
                     (string.IsNullOrWhiteSpace(EstadoFiltro) || m.Estado == EstadoFiltro))
                 .ToList();
 
-            if (!filtradas.SequenceEqual(MesasFiltradas))
+            MesasFiltradas.Clear();
+            _paginaActual = 0;
+
+            await CargarMasMesasAsync();
+
+            CountMesas = _todasLasMesasFiltradas.Count();
+            IsSearchNotEmpty = !string.IsNullOrWhiteSpace(SearchText);
+
+            IsLoading = false;
+        }
+
+        private async Task CargarMasMesasAsync()
+        {
+            if (_isCargandoMas) return;
+            if (_todasLasMesasFiltradas == null || !_todasLasMesasFiltradas.Any()) return;
+
+            _isCargandoMas = true;
+            IsLoading = true;
+
+            await Task.Delay(100);
+
+            var siguientesMesas = _todasLasMesasFiltradas
+                .Skip(_paginaActual * _itemsPorPagina)
+                .Take(_itemsPorPagina)
+                .ToList();
+
+            foreach (var mesa in siguientesMesas)
             {
-                MesasFiltradas.Clear();
-                filtradas.ForEach(m => MesasFiltradas.Add(m));
-                CountMesas = MesasFiltradas.Count;
-                IsSearchNotEmpty = !string.IsNullOrWhiteSpace(SearchText);
+                MesasFiltradas.Add(mesa);
             }
+
+            _paginaActual++;
+            _isCargandoMas = false;
             IsLoading = false;
         }
 
@@ -114,7 +145,7 @@ namespace PedidosMesa.ViewModels
 
             try
             {
-                await Task.Delay(2000, token);
+                await Task.Delay(1800, token);
 
                 if (!token.IsCancellationRequested)
                 {

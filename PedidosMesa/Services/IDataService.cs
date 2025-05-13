@@ -5,12 +5,16 @@ namespace PedidosMesa.Services
     public interface IDataService
     {
         List<MesaResponseModel> MesaData { get; set; }
-        void SetLogin(LoginRequestMiodel login);
+        void SetLogin(LoginRequestModel login);
 
-        LoginRequestMiodel GetLogin();
+        LoginRequestModel GetLogin();
 
         void SetMesas(List<MesaResponseModel> mesas);
 
         List<MesaResponseModel> GetMesas();
+
+        void SetProductos(List<ProductoResponseModel> mesas);
+
+        List<ProductoResponseModel> GetProductos();
     }
 }

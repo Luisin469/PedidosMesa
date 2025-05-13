@@ -12,25 +12,17 @@
 
     <Shell.TitleView>
         <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-            <Label
-                Text="Mesas"
-                FontSize="{dimension:PixelToMaui Pixels=24}"
-                FontFamily="NunitoSemiBold"
-                TextColor="#404040"/>
+            <Label Text="Mesas"
+                   FontSize="{dimension:PixelToMaui Pixels=24}"
+                   FontFamily="NunitoSemiBold"
+                   TextColor="#404040"/>
         </HorizontalStackLayout>
     </Shell.TitleView>
 
     <Grid Background="#F6F8FA" RowDefinitions="Auto,Auto,Auto,*">
-        <BoxView Grid.Row="0" HeightRequest="1" 
-                 Color="#336F6F6F"
-                 HorizontalOptions="Fill"
-                 VerticalOptions="Start"/>
-
+        <BoxView Grid.Row="0" HeightRequest="1" Color="#336F6F6F" HorizontalOptions="Fill" VerticalOptions="Start"/>
         <VerticalStackLayout Grid.Row="1" Padding="{dimension:PixelToMaui Pixels=24}">
-            <Border
-                Stroke="#8A8A8A"
-                StrokeThickness="1"
-                BackgroundColor="#FDFDFD">
+            <Border Stroke="#8A8A8A" StrokeThickness="1" BackgroundColor="#FDFDFD">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=8}" />
                 </Border.StrokeShape>
@@ -43,7 +35,6 @@
                            TextColor="#8A8A8A"
                            VerticalOptions="Center"
                            Margin="10,0,0,0"/>
-
                     <Entry Text="{Binding SearchText, Mode=TwoWay}"
                            Grid.Column="1"
                            FontFamily="NunitoMedium"
@@ -51,7 +42,6 @@
                            HorizontalOptions="Fill"
                            Placeholder="Buscar mesa"
                            FontSize="{dimension:PixelToMaui Pixels=14}" />
-
                     <Label Grid.Column="2"
                            Text="{x:Static fonts:FluentUI.dismiss_32_regular}"
                            FontFamily="IconFont"
@@ -67,74 +57,44 @@
                 </Grid>
             </Border>
         </VerticalStackLayout>
-
-        <Border Grid.Row="2" VerticalOptions="Fill" BackgroundColor="#FFFFFF" StrokeThickness="0" Padding="0">
+        <Border Grid.Row="2" BackgroundColor="#FFFFFF" StrokeThickness="0" Padding="0">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels='16,16,0,0'}"/>
             </Border.StrokeShape>
 
-            <VerticalStackLayout Spacing="{dimension:PixelToMaui Pixels=8}">
-                <VerticalStackLayout.Padding>
-                    <Thickness Left="{dimension:PixelToMaui Pixels=16}" 
-                   Top="{dimension:PixelToMaui Pixels=24}" 
-                   Right="{dimension:PixelToMaui Pixels=16}" 
-                   Bottom="{dimension:PixelToMaui Pixels=8}" />
-                </VerticalStackLayout.Padding>
-
+            <VerticalStackLayout Spacing="{dimension:PixelToMaui Pixels=8}" Padding="{dimension:PixelToMaui Pixels=16,24,16,8}">
                 <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
-                    <Label 
-                        Grid.Column="0"
-                        Text="{Binding CountMesas, StringFormat='Mesas ({0})'}"
-                        TextColor="#000000"
-                        FontFamily="NunitoSemiBold"
-                        FontSize="{dimension:PixelToMaui Pixels=14}"
-                        VerticalOptions="Center"
-                        HorizontalOptions="Start" />
+                    <Label Grid.Column="0"
+                           Text="{Binding CountMesas, StringFormat='Mesas ({0})'}"
+                           TextColor="#000000"
+                           FontFamily="NunitoSemiBold"
+                           FontSize="{dimension:PixelToMaui Pixels=14}"
+                           VerticalOptions="Center" />
 
-                    <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center" HorizontalOptions="End">
-                        <Button 
-                            Text="Libre"
-                            BackgroundColor="#B4F0B4"
-                            TextColor="#388E3C"
-                            Padding="10,10"
-                            FontFamily="NunitoMedium"
-                            CornerRadius="25"
-                            Command="{Binding FiltrarLibreCommand}"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"
-                            HeightRequest="{dimension:PixelToMaui Pixels=35}"
-                            WidthRequest="{dimension:PixelToMaui Pixels=90}"/>
-
-                        <Button 
-                            Text="Ocupado"
-                            BackgroundColor="#FFAA9F"
-                            TextColor="#D32F2F"
-                            Padding="10,6"
-                            FontFamily="NunitoMedium"
-                            CornerRadius="25"
-                            Command="{Binding FiltrarOcupadoCommand}"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"
-                            HeightRequest="{dimension:PixelToMaui Pixels=35}"
-                            WidthRequest="{dimension:PixelToMaui Pixels=90}"/>
-
-                        <Border
-                            WidthRequest="30"
-                            HeightRequest="30"
-                            StrokeThickness="0"
-                            BackgroundColor="Transparent"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center">
-
+                    <HorizontalStackLayout Grid.Column="1" Spacing="12" HorizontalOptions="End" VerticalOptions="Center">
+                        <Button Text="Libre"
+                                BackgroundColor="#B4F0B4"
+                                TextColor="#388E3C"
+                                Padding="10,10"
+                                FontFamily="NunitoMedium"
+                                CornerRadius="25"
+                                Command="{Binding FiltrarLibreCommand}"
+                                HeightRequest="{dimension:PixelToMaui Pixels=35}"
+                                WidthRequest="{dimension:PixelToMaui Pixels=90}"/>
+                        <Button Text="Ocupado"
+                                BackgroundColor="#FFAA9F"
+                                TextColor="#D32F2F"
+                                Padding="10,6"
+                                FontFamily="NunitoMedium"
+                                CornerRadius="25"
+                                Command="{Binding FiltrarOcupadoCommand}"
+                                HeightRequest="{dimension:PixelToMaui Pixels=35}"
+                                WidthRequest="{dimension:PixelToMaui Pixels=90}"/>
+                        <Border WidthRequest="30" HeightRequest="30" StrokeThickness="0" BackgroundColor="Transparent">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="7.5" />
                             </Border.StrokeShape>
-
-                            <Image Source="refresh.png"
-                               Aspect="AspectFit"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center" />
-
+                            <Image Source="refresh.png" Aspect="AspectFit" />
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding FiltrarTodosCommand}" />
                             </Border.GestureRecognizers>
@@ -143,79 +103,55 @@
                 </Grid>
             </VerticalStackLayout>
         </Border>
-
-        <ScrollView Grid.Row="3" BackgroundColor="#FFFFFF">
-            <CollectionView ItemsSource="{Binding MesasFiltradas}"
-                ItemsLayout="VerticalList"
-                ItemSizingStrategy="MeasureFirstItem"
-                BackgroundColor="White"
-                SelectionMode="None">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:MesaResponseModel">
-                        <VerticalStackLayout Spacing="0">
-                            <VerticalStackLayout Padding="{dimension:PixelToMaui Pixels=12}"
-                                Spacing="{dimension:PixelToMaui Pixels=4}">
-
-                                <Label Grid.Column="0"
-                                    Text="{Binding Estado}"
-                                    FontFamily="NunitoMedium"
-                                    FontSize="{dimension:PixelToMaui Pixels=12}">
-
-                                    <Label.Triggers>
-                                        <DataTrigger TargetType="Label"
-                                             Binding="{Binding Estado}"
-                                             Value="OCUPADO">
-                                            <Setter Property="TextColor" Value="Red" />
-                                        </DataTrigger>
-
-                                        <DataTrigger TargetType="Label"
-                                             Binding="{Binding Estado}"
-                                             Value="LIBRE">
-                                            <Setter Property="TextColor" Value="Green" />
-                                        </DataTrigger>
-                                    </Label.Triggers>
-                                </Label>
-
-                                <VerticalStackLayout Spacing="{dimension:PixelToMaui Pixels=20}">
-                                    <Grid ColumnDefinitions="*, Auto">
-                                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Fill">
-                                            <Label Text="{Binding Nombre}"
-                                                   FontFamily="NunitoBold"
-                                                   FontSize="20"
-                                                   TextColor="#303030"/>
-                                        </VerticalStackLayout>
-
-                                        <HorizontalStackLayout Grid.Column="1" Spacing="30" VerticalOptions="Center" Padding="0,0,20,0">
-                                            <ImageButton x:Name="btnProducto"
-                                                         Source="edit2.png"
-                                                         WidthRequest="{dimension:PixelToMaui Pixels=5}"
-                                                         HeightRequest="{dimension:PixelToMaui Pixels=5}"
-                                                         Aspect="AspectFit"
-                                                         BackgroundColor="Transparent"
-                                                         Clicked="OnProductoClicked" />
-
-                                            <ImageButton x:Name="btnFinalizar"
-                                                         Source="finish.png"
-                                                         WidthRequest="{dimension:PixelToMaui Pixels=5}"
-                                                         HeightRequest="{dimension:PixelToMaui Pixels=5}"
-                                                         Aspect="AspectFit"
-                                                         BackgroundColor="Transparent" />
-                                        </HorizontalStackLayout>
-                                    </Grid>
-                                </VerticalStackLayout>
-
-
+        <CollectionView Grid.Row="3"
+                        ItemsSource="{Binding MesasFiltradas}"
+                        ItemsLayout="VerticalList"
+                        ItemSizingStrategy="MeasureFirstItem"
+                        BackgroundColor="White"
+                        SelectionMode="None"
+                        RemainingItemsThreshold="3"
+                        RemainingItemsThresholdReached="CollectionView_RemainingItemsThresholdReached">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:MesaResponseModel">
+                    <VerticalStackLayout Spacing="0">
+                        <VerticalStackLayout Padding="{dimension:PixelToMaui Pixels=12}" Spacing="{dimension:PixelToMaui Pixels=4}">
+                            <Label Text="{Binding Estado}" FontFamily="NunitoMedium" FontSize="{dimension:PixelToMaui Pixels=12}">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Estado}" Value="OCUPADO">
+                                        <Setter Property="TextColor" Value="Red" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Estado}" Value="LIBRE">
+                                        <Setter Property="TextColor" Value="Green" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <VerticalStackLayout Spacing="{dimension:PixelToMaui Pixels=20}">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <VerticalStackLayout Grid.Column="0">
+                                        <Label Text="{Binding Nombre}" FontFamily="NunitoBold" FontSize="20" TextColor="#303030"/>
+                                    </VerticalStackLayout>
+                                    <HorizontalStackLayout Grid.Column="1" Spacing="30" VerticalOptions="Center" Padding="0,0,20,0">
+                                        <ImageButton Source="edit2.png"
+                                                     WidthRequest="{dimension:PixelToMaui Pixels=5}"
+                                                     HeightRequest="{dimension:PixelToMaui Pixels=5}"
+                                                     Aspect="AspectFit"
+                                                     BackgroundColor="Transparent"
+                                                     Clicked="OnProductoClicked" 
+                                                     CommandParameter="{Binding .}" />
+                                        <ImageButton Source="finish.png"
+                                                     WidthRequest="{dimension:PixelToMaui Pixels=5}"
+                                                     HeightRequest="{dimension:PixelToMaui Pixels=5}"
+                                                     Aspect="AspectFit"
+                                                     BackgroundColor="Transparent" />
+                                    </HorizontalStackLayout>
+                                </Grid>
                             </VerticalStackLayout>
-                            <BoxView HeightRequest="{dimension:PixelToMaui Pixels=1}" 
-                                    Color="#F1F2F6"
-                                    HorizontalOptions="Fill"
-                                    VerticalOptions="End"/>
                         </VerticalStackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-
-            </CollectionView>
-        </ScrollView>
+                        <BoxView HeightRequest="{dimension:PixelToMaui Pixels=1}" Color="#F1F2F6" HorizontalOptions="Fill"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
         <Grid x:Name="LoadingOverlay"
               BackgroundColor="#80000000"
               IsVisible="{Binding IsLoading}"
@@ -224,14 +160,13 @@
               Grid.RowSpan="4"
               ZIndex="99"
               InputTransparent="False">
-
-            <ActivityIndicator 
-                IsRunning="{Binding IsLoading}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                Color="White"
-                WidthRequest="50"
-                HeightRequest="50" />
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               Color="White"
+                               WidthRequest="50"
+                               HeightRequest="50" />
         </Grid>
     </Grid>
 </ContentPage>
+ 

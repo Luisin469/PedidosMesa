@@ -4,6 +4,7 @@ namespace PedidosMesa.Services
 {
     public interface IPedidoMesaService
     {
-        Task<List<ProductoResponseModel>> ConsultaProductosPorMesa(string mesa);
+        Task<List<PedidoRequestModel>> ConsultaProductosPorMesa(string mesa);
+        Task<List<ProductoResponseModel>> ConsultaProductos();
     }
 }

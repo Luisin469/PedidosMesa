@@ -16,5 +16,9 @@ namespace PedidosMesa.Services
         void SetProductos(List<ProductoResponseModel> mesas);
 
         List<ProductoResponseModel> GetProductos();
+
+        void SetProductosPedido(List<PedidoRequestModel> mesas);
+
+        List<PedidoRequestModel> GetProductosPedido();
     }
 }

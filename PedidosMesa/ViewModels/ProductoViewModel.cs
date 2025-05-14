@@ -7,13 +7,12 @@ using System.Windows.Input;
 
 namespace PedidosMesa.ViewModels
 {
-    public partial class PedidoMesaViewModel : ObservableObject
+    public partial class ProductoViewModel : ObservableObject
     {
         private readonly IDataService _dataService;
 
-        private List<PedidoRequestModel> _todosLosProductos;
-        private List<PedidoRequestModel> _todosLosProductosFiltrados;
-        private Func<PedidoRequestModel, Task<string>> _mostrarPromptComentario;
+        private List<ProductoResponseModel> _todosLosProductos;
+        private List<ProductoResponseModel> _todosLosProductosFiltrados;
 
         private CancellationTokenSource _debounceCts;
 
@@ -24,7 +23,7 @@ namespace PedidosMesa.ViewModels
         private string searchText;
 
         [ObservableProperty]
-        private ObservableCollection<PedidoRequestModel> productosFiltrados = new();
+        private ObservableCollection<ProductoResponseModel> productosFiltrados = new();
 
         [ObservableProperty]
         private bool isSearchNotEmpty;
@@ -35,30 +34,12 @@ namespace PedidosMesa.ViewModels
 
         public IRelayCommand CargarMasProductosCommand => new RelayCommand(async () => await CargarMasProductosAsync());
 
-        public PedidoMesaViewModel(IDataService dataService)
+        public ProductoViewModel(IDataService dataService)
         {
             _dataService = dataService;
-            _todosLosProductos = _dataService.GetProductosPedido();
+            _todosLosProductos = _dataService.GetProductos();
             _ = FiltrarProductosAsync();
         }
-
-        public void SetMostrarPromptComentario(Func<PedidoRequestModel, Task<string>> mostrarPrompt)
-        {
-            _mostrarPromptComentario = mostrarPrompt;
-        }
-
-         public ICommand VerComentarioCommand => new RelayCommand<PedidoRequestModel>(async (producto) =>
-        {
-            if (_mostrarPromptComentario == null || producto == null)
-                return;
-
-            var nuevoComentario = await _mostrarPromptComentario(producto);
-
-            if (!string.IsNullOrWhiteSpace(nuevoComentario))
-            {
-                producto.Comentario = nuevoComentario.Trim();
-            }
-        });
 
         [RelayCommand]
         private void ClearSearch()

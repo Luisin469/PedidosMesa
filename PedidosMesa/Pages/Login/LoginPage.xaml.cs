@@ -28,6 +28,8 @@ public partial class LoginPage : ContentPage
         string result = await DisplayPromptAsync(
             "Configuración",
             "Ingrese la URL del API:",
+            accept: "Guardar",
+            cancel:"Cancelar",
             placeholder: "http://miapi.com/api",
             initialValue: currentUrl,
             maxLength: 200,

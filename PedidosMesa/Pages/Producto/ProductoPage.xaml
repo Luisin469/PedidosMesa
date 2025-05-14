@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:fonts="clr-namespace:Fonts"
              xmlns:dimension="clr-namespace:PedidosMesa.Utils"
-             x:Class="PedidosMesa.Pages.PedidoMesa.PedidoMesaPage"
+             x:Class="PedidosMesa.Pages.Producto.ProductoPage"
              xmlns:models="clr-namespace:PedidosMesa.Models"
-             xmlns:vm="clr-namespace:PedidosMesa.ViewModels"
              Title="Pedido"
              Shell.FlyoutBehavior="Disabled"
              Shell.BackgroundColor="White"
@@ -14,7 +13,7 @@
     <Shell.TitleView>
         <HorizontalStackLayout HorizontalOptions="Start" VerticalOptions="Center">
             <Label
-                Text="Pedido"
+                Text="Productos"
                 FontSize="{dimension:PixelToMaui Pixels=24}"
                 FontFamily="NunitoSemiBold"
                 TextColor="#404040"/>
@@ -75,7 +74,7 @@
                 RemainingItemsThreshold="3"
                 RemainingItemsThresholdReached="CollectionView_RemainingItemsThresholdReached">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:PedidoRequestModel">
+                <DataTemplate x:DataType="models:ProductoResponseModel">
                     <Border Stroke="#8A8A8A" BackgroundColor="White" Padding="10" Margin="10" StrokeThickness="1">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=8}" />
@@ -112,9 +111,7 @@
                                         FontSize="{dimension:PixelToMaui Pixels=13}"
                                         Padding="5,0"
                                         VerticalOptions="Center"
-                                        BackgroundColor="#E0E0E0"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PedidoMesaViewModel}}, Path=VerComentarioCommand}"
-                                        CommandParameter="{Binding .}" />
+                                        BackgroundColor="#E0E0E0" />
 
                             </HorizontalStackLayout>
                         </Grid>
@@ -122,21 +119,24 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Grid x:Name="LoadingOverlay"
-                  BackgroundColor="#80000000"
-                  IsVisible="{Binding IsLoading}"
-                  VerticalOptions="Fill"
-                  HorizontalOptions="Fill"
-                  Grid.RowSpan="4"
-                  ZIndex="99"
-                  InputTransparent="False">
 
-            <ActivityIndicator IsRunning="{Binding IsLoading}"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="Center"
-                                   Color="White"
-                                   WidthRequest="50"
-                                   HeightRequest="50" />
+
+        <Grid x:Name="LoadingOverlay"
+              BackgroundColor="#80000000"
+              IsVisible="{Binding IsLoading}"
+              VerticalOptions="Fill"
+              HorizontalOptions="Fill"
+              Grid.RowSpan="4"
+              ZIndex="99"
+              InputTransparent="False">
+
+            <ActivityIndicator 
+                IsRunning="{Binding IsLoading}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Color="White"
+                WidthRequest="50"
+                HeightRequest="50" />
         </Grid>
     </Grid>
 </ContentPage>

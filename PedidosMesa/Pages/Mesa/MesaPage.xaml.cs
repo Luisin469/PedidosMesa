@@ -36,18 +36,36 @@ namespace PedidosMesa.Pages.Mesa
                 {
                     await Shell.Current.GoToAsync("PedidoMesaPage");
                 }
+                else
+                {
+                    await Shell.Current.GoToAsync("ProductoPage");
+                }
             }
         }
 
         public async Task<bool> ConsultaProductoPorMesaAsync(string mesa)
         {
 
-            List<ProductoResponseModel> productoData = await _pedidoMesaService.ConsultaProductosPorMesa(mesa);
+            List<PedidoRequestModel> productoPedidoData = await _pedidoMesaService.ConsultaProductosPorMesa(mesa);
 
-            if (productoData != null && productoData.Count > 0)
+            if (productoPedidoData != null && productoPedidoData.Count > 0)
             {
-                _dataService.SetProductos(productoData);
-                return true;
+                var productosConCantidad = productoPedidoData.Where(p => p.Cantidad > 0).ToList();
+
+                if (productosConCantidad.Count > 0)
+                {
+                    _dataService.SetProductosPedido(productosConCantidad);
+                    return true;
+                }
+                else
+                {
+                    List<ProductoResponseModel> productoData = await _pedidoMesaService.ConsultaProductos();
+                    if (productoData != null && productoData.Count > 0)
+                    {
+                        _dataService.SetProductos(productoData);
+                    }
+                    return false;
+                }
             }
             else
             {

@@ -8,7 +8,7 @@ namespace PedidosMesa.Utils
         {
             if (value is int cantidad)
             {
-                return cantidad > 0 ? Colors.Green : Colors.Gray;
+                return cantidad > 0 ? Color.Parse("#388E3C") : Colors.Gray;
             }
 
             return Colors.Gray;

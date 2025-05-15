@@ -33,11 +33,7 @@ namespace PedidosMesa.Pages.Mesa
 
                 if (await ConsultaProductoPorMesaAsync(nombreMesa))
                 {
-                    await Shell.Current.GoToAsync("PedidoMesaPage");
-                }
-                else
-                {
-                    await Shell.Current.GoToAsync("ProductoPage");
+                    await Shell.Current.GoToAsync($"PedidoMesaPage?nombreMesa={nombreMesa}");
                 }
             }
         }

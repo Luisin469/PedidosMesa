@@ -21,146 +21,150 @@
     <Shell.TitleView>
         <HorizontalStackLayout HorizontalOptions="Start" VerticalOptions="Center">
             <Label
-                Text="Pedido"
+                Text="{Binding Titulo}"
                 FontSize="{dimension:PixelToMaui Pixels=24}"
                 FontFamily="NunitoSemiBold"
                 TextColor="#404040"/>
         </HorizontalStackLayout>
     </Shell.TitleView>
 
-    <Grid Background="#F6F8FA" RowDefinitions="Auto,Auto,Auto,*">
-        <BoxView Grid.Row="0" HeightRequest="1" 
-             Color="#336F6F6F"
-             HorizontalOptions="Fill"
-             VerticalOptions="Start"/>
+    <AbsoluteLayout>
+        <Grid Background="#F6F8FA" RowDefinitions="Auto,Auto,Auto,*"
+              AbsoluteLayout.LayoutBounds="0,0,1,1"
+              AbsoluteLayout.LayoutFlags="All">
 
-        <VerticalStackLayout Grid.Row="1" Padding="{dimension:PixelToMaui Pixels=24}">
-            <Border
-            Stroke="#8A8A8A"
-            StrokeThickness="1"
-            BackgroundColor="#FDFDFD">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=8}" />
-                </Border.StrokeShape>
+            <BoxView Grid.Row="0" HeightRequest="1" 
+                 Color="#336F6F6F"
+                 HorizontalOptions="Fill"
+                 VerticalOptions="Start"/>
 
-                <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
-                    <Label Grid.Column="0"
-                       Text="{x:Static fonts:FluentUI.search_48_regular}"
-                       FontFamily="IconFont"
-                       FontSize="{dimension:PixelToMaui Pixels=14}"
-                       TextColor="#8A8A8A"
-                       VerticalOptions="Center"
-                       Margin="10,0,0,0"/>
+            <VerticalStackLayout Grid.Row="1" Padding="{dimension:PixelToMaui Pixels=24}">
+                <Border
+                Stroke="#8A8A8A"
+                StrokeThickness="1"
+                BackgroundColor="#FDFDFD">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=8}" />
+                    </Border.StrokeShape>
 
-                    <Entry Text="{Binding SearchText, Mode=TwoWay}"
-                       Grid.Column="1"
-                       FontFamily="NunitoMedium"
-                       TextColor="#8A8A8A"
-                       HorizontalOptions="Fill"
-                       Placeholder="Buscar producto"
-                       FontSize="{dimension:PixelToMaui Pixels=14}" />
+                    <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0"
+                           Text="{x:Static fonts:FluentUI.search_48_regular}"
+                           FontFamily="IconFont"
+                           FontSize="{dimension:PixelToMaui Pixels=14}"
+                           TextColor="#8A8A8A"
+                           VerticalOptions="Center"
+                           Margin="10,0,0,0"/>
 
-                    <Label Grid.Column="2"
-                       Text="{x:Static fonts:FluentUI.dismiss_32_regular}"
-                       FontFamily="IconFont"
-                       FontSize="{dimension:PixelToMaui Pixels=14}"
-                       TextColor="#8A8A8A"
-                       VerticalOptions="Center"
-                       Margin="0,0,10,0"
-                       IsVisible="{Binding IsSearchNotEmpty}">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ClearSearchCommand}" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                </Grid>
-            </Border>
-        </VerticalStackLayout>
-        <CollectionView Grid.Row="3"
-                BackgroundColor="#FFFFFF"
-                ItemsSource="{Binding ProductosFiltrados}"
-                SelectionMode="None"
-                RemainingItemsThreshold="3"
-                RemainingItemsThresholdReached="CollectionView_RemainingItemsThresholdReached">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:PedidoRequestModel">
-                    <Border Stroke="#8A8A8A" BackgroundColor="White" Padding="0" Margin="10" StrokeThickness="1">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=8}" />
-                        </Border.StrokeShape>
+                        <Entry Text="{Binding SearchText, Mode=TwoWay}"
+                           Grid.Column="1"
+                           FontFamily="NunitoMedium"
+                           TextColor="#8A8A8A"
+                           HorizontalOptions="Fill"
+                           Placeholder="Buscar producto"
+                           FontSize="{dimension:PixelToMaui Pixels=14}" />
 
-                        <Grid ColumnDefinitions="Auto,*,Auto" Padding="0">
-                            <BoxView Grid.Column="0"
-                                     WidthRequest="6"
-                                     Color="{Binding Cantidad, Converter={StaticResource CantidadToColorConverter}}"
-                                     HorizontalOptions="Start"
-                                     VerticalOptions="Fill"
-                                     CornerRadius="3,0,0,3" />
+                        <Label Grid.Column="2"
+                           Text="{x:Static fonts:FluentUI.dismiss_32_regular}"
+                           FontFamily="IconFont"
+                           FontSize="{dimension:PixelToMaui Pixels=14}"
+                           TextColor="#8A8A8A"
+                           VerticalOptions="Center"
+                           Margin="0,0,10,0"
+                           IsVisible="{Binding IsSearchNotEmpty}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ClearSearchCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
 
-                            <VerticalStackLayout Grid.Column="1" Padding="10" Spacing="4" MinimumHeightRequest="90">
-                                <Label Text="{Binding Descripcion}"
-                                       FontSize="{dimension:PixelToMaui Pixels=16}"
-                                       FontFamily="NunitoBold"
-                                       TextColor="#333" />
+            <CollectionView Grid.Row="3"
+                    BackgroundColor="#FFFFFF"
+                    ItemsSource="{Binding ProductosFiltrados}"
+                    SelectionMode="None"
+                    RemainingItemsThreshold="3"
+                    RemainingItemsThresholdReached="CollectionView_RemainingItemsThresholdReached">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:PedidoRequestModel">
+                        <Border Stroke="#8A8A8A" BackgroundColor="White" Padding="0" Margin="10" StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=8}" />
+                            </Border.StrokeShape>
 
-                                <Label Text="{Binding Cantidad, StringFormat='Cantidad: {0}'}"
-                                       FontSize="{dimension:PixelToMaui Pixels=14}"
-                                       TextColor="#444"
-                                       FontFamily="NunitoRegular" 
-                                       IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}" />
+                            <Grid ColumnDefinitions="Auto,*,Auto" Padding="0">
+                                <BoxView Grid.Column="0"
+                                         WidthRequest="6"
+                                         Color="{Binding Cantidad, Converter={StaticResource CantidadToColorConverter}}"
+                                         HorizontalOptions="Start"
+                                         VerticalOptions="Fill"
+                                         CornerRadius="3,0,0,3" />
 
-                                <Label Text="{Binding Total, StringFormat='Total: ${0:F2}'}"
-                                       FontSize="{dimension:PixelToMaui Pixels=14}"
-                                       TextColor="#444"
-                                       FontFamily="NunitoSemiBold" 
-                                       IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}" />
+                                <VerticalStackLayout Grid.Column="1" Padding="10" Spacing="4" MinimumHeightRequest="90">
+                                    <Label Text="{Binding Descripcion}"
+                                           FontSize="{dimension:PixelToMaui Pixels=16}"
+                                           FontFamily="NunitoBold"
+                                           TextColor="#333" />
 
-                                <Label Text="{Binding Comentario, StringFormat='Comentario: {0}'}"
-                                       FontSize="{dimension:PixelToMaui Pixels=13}"
-                                       TextColor="#666"
-                                       FontFamily="NunitoRegular"
-                                       LineBreakMode="WordWrap" 
-                                       IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}" />
-                            </VerticalStackLayout>
+                                    <Label Text="{Binding Cantidad, StringFormat='Cantidad: {0}'}"
+                                           FontSize="{dimension:PixelToMaui Pixels=14}"
+                                           TextColor="#444"
+                                           FontFamily="NunitoRegular" 
+                                           IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}" />
 
+                                    <Label Text="{Binding Total, StringFormat='Total: ${0:F2}'}"
+                                           FontSize="{dimension:PixelToMaui Pixels=14}"
+                                           TextColor="#444"
+                                           FontFamily="NunitoSemiBold" 
+                                           IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}" />
 
-                            <HorizontalStackLayout Grid.Column="2"
-                                       Spacing="10"
-                                       VerticalOptions="Center"
-                                       Padding="10,0">
-                                <Label Text="{Binding Precio, StringFormat='${0}'}"
-                                       FontSize="{dimension:PixelToMaui Pixels=16}"
-                                       TextColor="#333"
-                                       FontFamily="NunitoBold"
-                                       VerticalOptions="Center" />
+                                    <Label Text="{Binding Comentario, StringFormat='Comentario: {0}'}"
+                                           FontSize="{dimension:PixelToMaui Pixels=13}"
+                                           TextColor="#666"
+                                           FontFamily="NunitoRegular"
+                                           LineBreakMode="WordWrap" 
+                                           IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}" />
+                                </VerticalStackLayout>
 
-                                <Button Text="{x:Static fonts:FluentUI.edit_24_regular}"
-                                        FontFamily="IconFont"
-                                        FontSize="{dimension:PixelToMaui Pixels=16}"
-                                        Padding="5,0"
-                                        VerticalOptions="Center"
-                                        BackgroundColor="#050F37"
-                                        IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PedidoMesaViewModel}}, Path=VerComentarioCommand}"
-                                        CommandParameter="{Binding .}" />
+                                <HorizontalStackLayout Grid.Column="2"
+                                           Spacing="10"
+                                           VerticalOptions="Center"
+                                           Padding="10,0">
+                                    <Label Text="{Binding Precio, StringFormat='${0}'}"
+                                           FontSize="{dimension:PixelToMaui Pixels=16}"
+                                           TextColor="#333"
+                                           FontFamily="NunitoBold"
+                                           VerticalOptions="Center" />
 
-                                <Button Text="{x:Static fonts:FluentUI.add_24_regular}"
-                                        FontFamily="IconFont"
-                                        FontSize="{dimension:PixelToMaui Pixels=16}"
-                                        Padding="5,0"
-                                        VerticalOptions="Center"
-                                        BackgroundColor="#050F37"
-                                        IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}, ConverterParameter=Invert}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PedidoMesaViewModel}}, Path=AgregarProductoCommand}"
-                                        CommandParameter="{Binding .}" />
+                                    <Button Text="{x:Static fonts:FluentUI.edit_24_regular}"
+                                            FontFamily="IconFont"
+                                            FontSize="{dimension:PixelToMaui Pixels=16}"
+                                            Padding="5,0"
+                                            VerticalOptions="Center"
+                                            BackgroundColor="#050F37"
+                                            IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PedidoMesaViewModel}}, Path=VerComentarioCommand}"
+                                            CommandParameter="{Binding .}" />
 
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+                                    <Button Text="{x:Static fonts:FluentUI.add_24_regular}"
+                                            FontFamily="IconFont"
+                                            FontSize="{dimension:PixelToMaui Pixels=16}"
+                                            Padding="5,0"
+                                            VerticalOptions="Center"
+                                            BackgroundColor="#050F37"
+                                            IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}, ConverterParameter=Invert}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PedidoMesaViewModel}}, Path=AgregarProductoCommand}"
+                                            CommandParameter="{Binding .}" />
 
-        </CollectionView>
-        <Grid x:Name="LoadingOverlay"
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Grid x:Name="LoadingOverlay"
                   BackgroundColor="#80000000"
                   IsVisible="{Binding IsLoading}"
                   VerticalOptions="Fill"
@@ -169,12 +173,42 @@
                   ZIndex="99"
                   InputTransparent="False">
 
-            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center"
                                    Color="White"
                                    WidthRequest="50"
                                    HeightRequest="50" />
+            </Grid>
         </Grid>
-    </Grid>
+
+        <Border x:Name="FloatingButtonBorder"
+                StrokeThickness="0"
+                BackgroundColor="#388E3C"
+                WidthRequest="{dimension:PixelToMaui Pixels=60}"
+                HeightRequest="{dimension:PixelToMaui Pixels=60}"
+                Padding="0"
+                AbsoluteLayout.LayoutBounds="1,1,60,60"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                Margin="0,0,40,56" >
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=10}" />
+            </Border.StrokeShape>
+            
+            <Button Text="{x:Static fonts:FluentUI.checkmark_48_regular}"
+                    FontFamily="IconFont"
+                    FontSize="{dimension:PixelToMaui Pixels=16}"
+                    FontAttributes="Bold"
+                    TextColor="#DFF5DF"
+                    BackgroundColor="Transparent"
+                    WidthRequest="{dimension:PixelToMaui Pixels=60}"
+                    HeightRequest="{dimension:PixelToMaui Pixels=60}"
+                    CornerRadius="{dimension:PixelToMaui Pixels=10}"
+                    Clicked="FloatingButton_Clicked" />
+        </Border>
+
+
+    </AbsoluteLayout>
+
 </ContentPage>

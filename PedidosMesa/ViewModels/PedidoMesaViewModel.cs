@@ -7,6 +7,7 @@ using System.Windows.Input;
 
 namespace PedidosMesa.ViewModels
 {
+    [QueryProperty(nameof(NombreMesa), "nombreMesa")]
     public partial class PedidoMesaViewModel : ObservableObject
     {
         private readonly IDataService _dataService;
@@ -32,6 +33,20 @@ namespace PedidosMesa.ViewModels
         private int _itemsPorPagina = 10;
         private int _paginaActual = 0;
         private bool _isCargandoMas = false;
+        private string nombreMesa;
+        public string NombreMesa
+        {
+            get => nombreMesa;
+            set
+            {
+                if (SetProperty(ref nombreMesa, value))
+                {
+                    OnPropertyChanged(nameof(Titulo));
+                }
+            }
+        }
+
+        public string Titulo => $"Pedido mesa {NombreMesa}";
 
         public IRelayCommand CargarMasProductosCommand => new RelayCommand(async () => await CargarMasProductosAsync());
 
@@ -47,18 +62,18 @@ namespace PedidosMesa.ViewModels
             _mostrarPromptComentario = mostrarPrompt;
         }
 
-         public ICommand VerComentarioCommand => new RelayCommand<PedidoRequestModel>(async (producto) =>
-        {
-            if (_mostrarPromptComentario == null || producto == null)
-                return;
+        public ICommand VerComentarioCommand => new RelayCommand<PedidoRequestModel>(async (producto) =>
+       {
+           if (_mostrarPromptComentario == null || producto == null)
+               return;
 
-            var nuevoComentario = await _mostrarPromptComentario(producto);
+           var nuevoComentario = await _mostrarPromptComentario(producto);
 
-            if (!string.IsNullOrWhiteSpace(nuevoComentario))
-            {
-                producto.Comentario = nuevoComentario.Trim();
-            }
-        });
+           if (!string.IsNullOrWhiteSpace(nuevoComentario))
+           {
+               producto.Comentario = nuevoComentario.Trim();
+           }
+       });
 
         [RelayCommand]
         private void ClearSearch()

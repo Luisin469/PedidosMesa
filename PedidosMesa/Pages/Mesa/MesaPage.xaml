@@ -73,7 +73,7 @@
 
                     <HorizontalStackLayout Grid.Column="1" Spacing="12" HorizontalOptions="End" VerticalOptions="Center">
                         <Button Text="Libre"
-                                BackgroundColor="#B4F0B4"
+                                BackgroundColor="#DFF5DF"
                                 TextColor="#388E3C"
                                 Padding="10,10"
                                 FontFamily="NunitoMedium"
@@ -82,7 +82,7 @@
                                 HeightRequest="{dimension:PixelToMaui Pixels=35}"
                                 WidthRequest="{dimension:PixelToMaui Pixels=90}"/>
                         <Button Text="Ocupado"
-                                BackgroundColor="#FFAA9F"
+                                BackgroundColor="#FFD6D1"
                                 TextColor="#D32F2F"
                                 Padding="10,6"
                                 FontFamily="NunitoMedium"
@@ -118,10 +118,10 @@
                             <Label Text="{Binding Estado}" FontFamily="NunitoMedium" FontSize="{dimension:PixelToMaui Pixels=12}">
                                 <Label.Triggers>
                                     <DataTrigger TargetType="Label" Binding="{Binding Estado}" Value="OCUPADO">
-                                        <Setter Property="TextColor" Value="Red" />
+                                        <Setter Property="TextColor" Value="#D32F2F" />
                                     </DataTrigger>
                                     <DataTrigger TargetType="Label" Binding="{Binding Estado}" Value="LIBRE">
-                                        <Setter Property="TextColor" Value="Green" />
+                                        <Setter Property="TextColor" Value="#388E3C" />
                                     </DataTrigger>
                                 </Label.Triggers>
                             </Label>
@@ -146,7 +146,7 @@
                                                 FontSize="{dimension:PixelToMaui Pixels=16}"
                                                 Padding="5,0"
                                                 VerticalOptions="Center"
-                                                BackgroundColor="#004d00"
+                                                BackgroundColor="#388E3C"
                                                 TextColor="White" />
 
                                     </HorizontalStackLayout>

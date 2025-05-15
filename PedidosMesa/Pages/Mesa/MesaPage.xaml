@@ -11,7 +11,7 @@
              Background="White">
 
     <Shell.TitleView>
-        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <HorizontalStackLayout HorizontalOptions="Start" VerticalOptions="Center">
             <Label Text="Mesas"
                    FontSize="{dimension:PixelToMaui Pixels=24}"
                    FontFamily="NunitoSemiBold"
@@ -131,18 +131,24 @@
                                         <Label Text="{Binding Nombre}" FontFamily="NunitoBold" FontSize="20" TextColor="#303030"/>
                                     </VerticalStackLayout>
                                     <HorizontalStackLayout Grid.Column="1" Spacing="30" VerticalOptions="Center" Padding="0,0,20,0">
-                                        <ImageButton Source="edit2.png"
-                                                     WidthRequest="{dimension:PixelToMaui Pixels=5}"
-                                                     HeightRequest="{dimension:PixelToMaui Pixels=5}"
-                                                     Aspect="AspectFit"
-                                                     BackgroundColor="Transparent"
-                                                     Clicked="OnProductoClicked" 
-                                                     CommandParameter="{Binding .}" />
-                                        <ImageButton Source="finish.png"
-                                                     WidthRequest="{dimension:PixelToMaui Pixels=5}"
-                                                     HeightRequest="{dimension:PixelToMaui Pixels=5}"
-                                                     Aspect="AspectFit"
-                                                     BackgroundColor="Transparent" />
+                                        <Button Text="{x:Static fonts:FluentUI.edit_24_regular}"
+                                                FontFamily="IconFont"
+                                                FontSize="{dimension:PixelToMaui Pixels=16}"
+                                                Padding="5,0"
+                                                VerticalOptions="Center"
+                                                BackgroundColor="#050F37"
+                                                TextColor="White"
+                                                Clicked="OnProductoClicked"
+                                                CommandParameter="{Binding .}" />
+
+                                        <Button Text="{x:Static fonts:FluentUI.checkmark_24_regular}"
+                                                FontFamily="IconFont"
+                                                FontSize="{dimension:PixelToMaui Pixels=16}"
+                                                Padding="5,0"
+                                                VerticalOptions="Center"
+                                                BackgroundColor="#004d00"
+                                                TextColor="White" />
+
                                     </HorizontalStackLayout>
                                 </Grid>
                             </VerticalStackLayout>

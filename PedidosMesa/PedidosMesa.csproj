@@ -76,9 +76,6 @@
 	  <Compile Update="Pages\Mesa\MesaPage.xaml.cs">
 	    <DependentUpon>MesaPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\Producto\ProductoPage.xaml.cs">
-	    <DependentUpon>ProductoPage.xaml</DependentUpon>
-	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -89,9 +86,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Mesa\MesaPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\Producto\ProductoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\PedidoMesa\PedidoMesaPage.xaml">

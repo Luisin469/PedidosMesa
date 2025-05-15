@@ -11,6 +11,13 @@
              Shell.BackgroundColor="White"
              Background="White">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <dimension:CantidadToColorConverter x:Key="CantidadToColorConverter" />
+            <dimension:CantidadMayorACeroConverter x:Key="CantidadMayorACeroConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <Shell.TitleView>
         <HorizontalStackLayout HorizontalOptions="Start" VerticalOptions="Center">
             <Label
@@ -76,13 +83,20 @@
                 RemainingItemsThresholdReached="CollectionView_RemainingItemsThresholdReached">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:PedidoRequestModel">
-                    <Border Stroke="#8A8A8A" BackgroundColor="White" Padding="10" Margin="10" StrokeThickness="1">
+                    <Border Stroke="#8A8A8A" BackgroundColor="White" Padding="0" Margin="10" StrokeThickness="1">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=8}" />
                         </Border.StrokeShape>
 
-                        <Grid ColumnDefinitions="*,Auto" Padding="0">
-                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                        <Grid ColumnDefinitions="Auto,*,Auto" Padding="0">
+                            <BoxView Grid.Column="0"
+                                     WidthRequest="6"
+                                     Color="{Binding Cantidad, Converter={StaticResource CantidadToColorConverter}}"
+                                     HorizontalOptions="Start"
+                                     VerticalOptions="Fill"
+                                     CornerRadius="3,0,0,3" />
+
+                            <VerticalStackLayout Grid.Column="1" Padding="10" Spacing="4" MinimumHeightRequest="90">
                                 <Label Text="{Binding Descripcion}"
                                        FontSize="{dimension:PixelToMaui Pixels=16}"
                                        FontFamily="NunitoBold"
@@ -91,29 +105,52 @@
                                 <Label Text="{Binding Cantidad, StringFormat='Cantidad: {0}'}"
                                        FontSize="{dimension:PixelToMaui Pixels=14}"
                                        TextColor="#444"
-                                       FontFamily="NunitoRegular" />
+                                       FontFamily="NunitoRegular" 
+                                       IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}" />
 
                                 <Label Text="{Binding Total, StringFormat='Total: ${0:F2}'}"
                                        FontSize="{dimension:PixelToMaui Pixels=14}"
                                        TextColor="#444"
-                                       FontFamily="NunitoSemiBold" />
+                                       FontFamily="NunitoSemiBold" 
+                                       IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}" />
+
+                                <Label Text="{Binding Comentario, StringFormat='Comentario: {0}'}"
+                                       FontSize="{dimension:PixelToMaui Pixels=13}"
+                                       TextColor="#666"
+                                       FontFamily="NunitoRegular"
+                                       LineBreakMode="WordWrap" 
+                                       IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}" />
                             </VerticalStackLayout>
 
-                            <HorizontalStackLayout Grid.Column="1"
-                                                   Spacing="10"
-                                                   VerticalOptions="Center">
+
+                            <HorizontalStackLayout Grid.Column="2"
+                                       Spacing="10"
+                                       VerticalOptions="Center"
+                                       Padding="10,0">
                                 <Label Text="{Binding Precio, StringFormat='${0}'}"
                                        FontSize="{dimension:PixelToMaui Pixels=16}"
                                        TextColor="#333"
                                        FontFamily="NunitoBold"
                                        VerticalOptions="Center" />
 
-                                <Button Text="..."
-                                        FontSize="{dimension:PixelToMaui Pixels=13}"
+                                <Button Text="{x:Static fonts:FluentUI.edit_24_regular}"
+                                        FontFamily="IconFont"
+                                        FontSize="{dimension:PixelToMaui Pixels=16}"
                                         Padding="5,0"
                                         VerticalOptions="Center"
-                                        BackgroundColor="#E0E0E0"
+                                        BackgroundColor="#050F37"
+                                        IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PedidoMesaViewModel}}, Path=VerComentarioCommand}"
+                                        CommandParameter="{Binding .}" />
+
+                                <Button Text="{x:Static fonts:FluentUI.add_24_regular}"
+                                        FontFamily="IconFont"
+                                        FontSize="{dimension:PixelToMaui Pixels=16}"
+                                        Padding="5,0"
+                                        VerticalOptions="Center"
+                                        BackgroundColor="#050F37"
+                                        IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}, ConverterParameter=Invert}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PedidoMesaViewModel}}, Path=AgregarProductoCommand}"
                                         CommandParameter="{Binding .}" />
 
                             </HorizontalStackLayout>
@@ -121,6 +158,7 @@
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
         </CollectionView>
         <Grid x:Name="LoadingOverlay"
                   BackgroundColor="#80000000"

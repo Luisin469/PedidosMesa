@@ -13,10 +13,6 @@ namespace PedidosMesa.Services
 
         List<MesaResponseModel> GetMesas();
 
-        void SetProductos(List<ProductoResponseModel> mesas);
-
-        List<ProductoResponseModel> GetProductos();
-
         void SetProductosPedido(List<PedidoRequestModel> mesas);
 
         List<PedidoRequestModel> GetProductosPedido();

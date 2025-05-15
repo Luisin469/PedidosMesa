@@ -6,7 +6,6 @@
     xmlns:login="clr-namespace:PedidosMesa.Pages.Login;assembly=PedidosMesa"
     xmlns:mesa="clr-namespace:PedidosMesa.Pages.Mesa;assembly=PedidosMesa"
     xmlns:pedido="clr-namespace:PedidosMesa.Pages.PedidoMesa;assembly=PedidosMesa"
-    xmlns:producto="clr-namespace:PedidosMesa.Pages.Producto;assembly=PedidosMesa"
     Title="Pedidos Mesa"
     Shell.TabBarUnselectedColor="#6C7589"
     Shell.TabBarForegroundColor="#48A699"
@@ -25,7 +24,4 @@
         ContentTemplate="{DataTemplate pedido:PedidoMesaPage}" 
         Route="PedidoMesaPage" />
 
-    <ShellContent 
-        ContentTemplate="{DataTemplate producto:ProductoPage}" 
-        Route="ProductoPage" />
 </Shell>

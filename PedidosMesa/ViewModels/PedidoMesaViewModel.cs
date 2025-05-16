@@ -1,6 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PedidosMesa.Models;
+using PedidosMesa.Pages.Popups;
 using PedidosMesa.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -33,6 +35,7 @@ namespace PedidosMesa.ViewModels
         private int _itemsPorPagina = 10;
         private int _paginaActual = 0;
         private bool _isCargandoMas = false;
+
         private string nombreMesa;
         public string NombreMesa
         {
@@ -63,23 +66,50 @@ namespace PedidosMesa.ViewModels
         }
 
         public ICommand VerComentarioCommand => new RelayCommand<PedidoRequestModel>(async (producto) =>
-       {
-           if (_mostrarPromptComentario == null || producto == null)
-               return;
+        {
+            if (_mostrarPromptComentario == null || producto == null)
+                return;
 
-           var nuevoComentario = await _mostrarPromptComentario(producto);
+            var nuevoComentario = await _mostrarPromptComentario(producto);
 
-           if (!string.IsNullOrWhiteSpace(nuevoComentario))
-           {
-               producto.Comentario = nuevoComentario.Trim();
-           }
-       });
+            if (!string.IsNullOrWhiteSpace(nuevoComentario))
+            {
+                producto.Comentario = nuevoComentario.Trim();
+                producto.EsModificado = true;
+            }
+        });
 
         [RelayCommand]
         private void ClearSearch()
         {
             SearchText = string.Empty;
         }
+
+        public ICommand AgregarProductoCommand => new RelayCommand<PedidoRequestModel>((producto) =>
+        {
+            if (producto == null) return;
+
+            int cantidadAnterior = producto.Cantidad;
+
+            producto.Cantidad++;
+            producto.EsModificado = true;
+
+            ReubicarProducto(producto, cantidadAnterior);
+        });
+
+        [RelayCommand]
+        private async Task EditarProductoAsync(PedidoRequestModel producto)
+        {
+            if (producto == null) return;
+
+            int cantidadAnterior = producto.Cantidad;
+
+            var popup = new EditarProductoPopup(producto, false);
+            await Application.Current.MainPage.ShowPopupAsync(popup);
+
+            ReubicarProducto(producto, cantidadAnterior);
+        }
+
 
         partial void OnSearchTextChanged(string value)
         {
@@ -94,7 +124,6 @@ namespace PedidosMesa.ViewModels
                 .Where(m =>
                     string.IsNullOrWhiteSpace(SearchText) || m.Descripcion.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
                 .ToList();
-
 
             ProductosFiltrados.Clear();
             _paginaActual = 0;
@@ -151,6 +180,52 @@ namespace PedidosMesa.ViewModels
             }
         }
 
+        private void ReubicarProducto(PedidoRequestModel producto, int cantidadAnterior)
+        {
+            if (producto == null) return;
 
+            if (cantidadAnterior > 0 && producto.Cantidad > 0)
+                return;
+
+            if (producto.Cantidad == 0)
+            {
+                MoverProductoDebajoDeConCantidadMayorCero(producto);
+            }
+            else if (cantidadAnterior == 0 && producto.Cantidad > 0)
+            {
+                MoverProductoDebajoDeConCantidadMayorCero(producto);
+            }
+        }
+
+        private void MoverProductoDebajoDeConCantidadMayorCero(PedidoRequestModel producto)
+        {
+            if (ProductosFiltrados.Contains(producto))
+            {
+                ProductosFiltrados.Remove(producto);
+
+                int index = ProductosFiltrados
+                    .TakeWhile(p => p.Cantidad > 0)
+                    .Count();
+
+                ProductosFiltrados.Insert(index, producto);
+            }
+
+            if (_todosLosProductos.Contains(producto))
+            {
+                _todosLosProductos.Remove(producto);
+
+                int indexTodos = _todosLosProductos
+                    .TakeWhile(p => p.Cantidad > 0)
+                    .Count();
+
+                _todosLosProductos.Insert(indexTodos, producto);
+            }
+        }
+
+        [RelayCommand]
+        private void ConfirmarPedido()
+        {
+            // Aquí agregas la lógica para guardar o confirmar pedido
+        }
     }
 }

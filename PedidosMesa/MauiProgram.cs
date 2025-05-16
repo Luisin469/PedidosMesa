@@ -1,10 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Handlers;
-using PedidosMesa.Pages.Mesa;
 using PedidosMesa.Services;
 using PedidosMesa.ViewModels;
 using SkiaSharp.Views.Maui.Controls.Hosting;
-
 
 namespace PedidosMesa
 {
@@ -15,6 +14,7 @@ namespace PedidosMesa
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .UseSkiaSharp()
                 .ConfigureFonts(fonts =>
                 {
@@ -32,7 +32,6 @@ namespace PedidosMesa
             builder.Services.AddSingleton<IDataService>(DataService.Instance);
             builder.Services.AddSingleton<ILoginService, LoginService>();
             builder.Services.AddSingleton<IPedidoMesaService, PedidoMesaService>();
-            //builder.Services.AddSingleton<MesaPage>();
 
             builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<MesaViewModel>();
@@ -53,13 +52,9 @@ namespace PedidosMesa
                 if (view is Entry entry)
                 {
                     handler.PlatformView.Background = null;
-
-                    // También puedes quitar el fondo completamente
                     handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
                     handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
-
                 }
-
             });
 #endif
         }

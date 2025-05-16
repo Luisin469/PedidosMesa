@@ -14,22 +14,7 @@ namespace PedidosMesa.Pages.PedidoMesa
                 Radius = 4,
                 Opacity = 0.8f
             };
-            viewModel.SetMostrarPromptComentario(DisplayComentarioPromptAsync);
             BindingContext = viewModel;
-        }
-
-        private async Task<string> DisplayComentarioPromptAsync(Models.PedidoRequestModel producto)
-        {
-            return await DisplayPromptAsync(
-                "Editar Comentario",
-                "Modifica el comentario del producto:",
-                accept: "Guardar",
-                cancel: "Cancelar",
-                placeholder: "Escribe un comentario aquí...",
-                initialValue: producto.Comentario,
-                maxLength: 500,
-                keyboard: Keyboard.Default
-            );
         }
 
         private void CollectionView_RemainingItemsThresholdReached(object sender, EventArgs e)

@@ -10,6 +10,7 @@ namespace PedidosMesa.Models
         private float _precio;
         private int _cantidad;
         private string _comentario;
+        private bool _esModificado;
 
         public double Codigo
         {
@@ -49,6 +50,12 @@ namespace PedidosMesa.Models
         {
             get => _comentario;
             set => SetProperty(ref _comentario, value);
+        }
+
+        public bool EsModificado
+        {
+            get => _esModificado;
+            set => SetProperty(ref _esModificado, value);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

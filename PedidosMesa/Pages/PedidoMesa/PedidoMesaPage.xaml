@@ -144,7 +144,7 @@
                                             VerticalOptions="Center"
                                             BackgroundColor="#050F37"
                                             IsVisible="{Binding Cantidad, Converter={StaticResource CantidadMayorACeroConverter}}"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PedidoMesaViewModel}}, Path=VerComentarioCommand}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PedidoMesaViewModel}}, Path=EditarProductoCommand}"
                                             CommandParameter="{Binding .}" />
 
                                     <Button Text="{x:Static fonts:FluentUI.add_24_regular}"
@@ -195,7 +195,7 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=10}" />
             </Border.StrokeShape>
-            
+
             <Button Text="{x:Static fonts:FluentUI.checkmark_48_regular}"
                     FontFamily="IconFont"
                     FontSize="{dimension:PixelToMaui Pixels=16}"

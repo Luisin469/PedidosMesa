@@ -11,12 +11,28 @@ public partial class EditarProductoPopup : Popup
     public EditarProductoPopup(PedidoRequestModel producto, bool esAgregar)
     {
         InitializeComponent();
+        AjustarTamanioPopup();
         _producto = producto;
         _esAgregar = esAgregar;
 
-        TituloLabel.Text = esAgregar ? "Agregar Producto" : "Editar Producto";
+        TituloLabel.Text = esAgregar ? "Agregar Producto" : producto.Descripcion.Length > 20 ? $"{producto.Descripcion.Substring(0, 20)}..." : producto.Descripcion;
         CantidadEntry.Text = esAgregar ? "1" : producto.Cantidad.ToString();
         ComentarioEditor.Text = esAgregar ? "" : producto.Comentario;
+
+        CantidadEntry.TextChanged += CantidadEntry_TextChanged;
+
+        ActualizarTotal();
+    }
+
+    private void AjustarTamanioPopup()
+    {
+        var displayInfo = DeviceDisplay.MainDisplayInfo;
+
+        double ancho = displayInfo.Width / displayInfo.Density;
+        double alto = displayInfo.Height / displayInfo.Density;
+
+        PopupContent.WidthRequest = ancho * 0.82;
+        PopupContent.HeightRequest = alto * 0.4;
     }
 
     private void OnIncrementClicked(object sender, EventArgs e)
@@ -45,6 +61,23 @@ public partial class EditarProductoPopup : Popup
         }
     }
 
+    private void CantidadEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        ActualizarTotal();
+    }
+
+    private void ActualizarTotal()
+    {
+        if (int.TryParse(CantidadEntry.Text, out int cantidad) && _producto != null)
+        {
+            var total = cantidad * _producto.Precio;
+            TotalLabel.Text = $"${total:F2}";
+        }
+        else
+        {
+            TotalLabel.Text = "$0.00";
+        }
+    }
 
     private void OnCancelarClicked(object sender, EventArgs e)
     {
@@ -62,7 +95,7 @@ public partial class EditarProductoPopup : Popup
         }
         else
         {
-            // Puedes mostrar un error aquí si deseas validar
+            // Mostrar un error aquí si se valida alfo
         }
     }
 }

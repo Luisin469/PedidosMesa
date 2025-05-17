@@ -5,12 +5,11 @@
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                xmlns:dimension="clr-namespace:PedidosMesa.Utils">
 
-    <ContentView
-        HeightRequest="350"
-        HorizontalOptions="Center"
-        VerticalOptions="Center"
-        BackgroundColor="White"
-        Padding="20">
+    <ContentView x:Name="PopupContent"
+                 HorizontalOptions="Center"
+                 VerticalOptions="Center"
+                 BackgroundColor="White"
+                 Padding="20">
 
         <Grid
             RowDefinitions="Auto,Auto,Auto"
@@ -43,20 +42,39 @@
                     <Border Grid.Column="0"
                             Stroke="#050F37"
                             StrokeThickness="1"
-                            Padding="0">
+                            Padding="8,0"
+                            HeightRequest="40"
+                            VerticalOptions="Center">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="8" />
                         </Border.StrokeShape>
-                        <Entry x:Name="CantidadEntry"
-                               HeightRequest="40"
-                               VerticalOptions="Center"
-                               Placeholder="0"
-                               Keyboard="Numeric"
-                               FontFamily="NunitoRegular"
-                               TextColor="#050F37"
-                               BackgroundColor="Transparent"
-                               HorizontalTextAlignment="Center"
-                               VerticalTextAlignment="Center"/>
+
+                        <Grid ColumnSpacing="10" VerticalOptions="Center" HorizontalOptions="Fill">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Entry x:Name="CantidadEntry"
+                                   HeightRequest="40"
+                                   VerticalOptions="Center"
+                                   Placeholder="0"
+                                   Keyboard="Numeric"
+                                   FontFamily="NunitoRegular"
+                                   TextColor="#050F37"
+                                   BackgroundColor="Transparent"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   Grid.Column="0"/>
+
+                            <Label x:Name="TotalLabel"
+                                   Text="$0.00"
+                                   FontFamily="NunitoSemiBold"
+                                   FontSize="16"
+                                   TextColor="#050F37"
+                                   VerticalOptions="Center"
+                                   Grid.Column="1"/>
+                        </Grid>
                     </Border>
 
                     <Button Grid.Column="1"
@@ -78,7 +96,6 @@
                             FontFamily="NunitoMedium"
                             CornerRadius="15"
                             Clicked="OnIncrementClicked"/>
-
                 </Grid>
 
                 <Label Text="Comentario"

@@ -27,6 +27,7 @@ namespace PedidosMesa
                 });
 
             ModifyEntryHandler();
+            ModifyEditorHandler();
 
             builder.Services.AddHttpClient();
             builder.Services.AddSingleton<IDataService>(DataService.Instance);
@@ -56,6 +57,18 @@ namespace PedidosMesa
                     handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
                 }
             });
+#endif
+        }
+
+        private static void ModifyEditorHandler()
+        {
+#if ANDROID
+    EditorHandler.Mapper.AppendToMapping("NoUnderline", (handler, view) =>
+    {
+        handler.PlatformView.Background = null;
+        handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+        handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+    });
 #endif
         }
     }

@@ -39,43 +39,50 @@
                  VerticalOptions="Start"/>
 
             <VerticalStackLayout Grid.Row="1" Padding="{dimension:PixelToMaui Pixels=24}">
-                <Border
-                Stroke="#8A8A8A"
-                StrokeThickness="1"
-                BackgroundColor="#FDFDFD">
+                <Border Stroke="#8A8A8A"
+                        StrokeThickness="1"
+                        BackgroundColor="#FDFDFD">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=8}" />
                     </Border.StrokeShape>
 
-                    <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" VerticalOptions="Center">
                         <Label Grid.Column="0"
-                           Text="{x:Static fonts:FluentUI.search_48_regular}"
-                           FontFamily="IconFont"
-                           FontSize="{dimension:PixelToMaui Pixels=14}"
-                           TextColor="#8A8A8A"
-                           VerticalOptions="Center"
-                           Margin="10,0,0,0"/>
+                               Text="{x:Static fonts:FluentUI.search_48_regular}"
+                               FontFamily="IconFont"
+                               FontSize="{dimension:PixelToMaui Pixels=14}"
+                               TextColor="#8A8A8A"
+                               VerticalOptions="Center"
+                               Margin="10,0,0,0" />
 
                         <Entry Text="{Binding SearchText, Mode=TwoWay}"
-                           Grid.Column="1"
-                           FontFamily="NunitoMedium"
-                           TextColor="#8A8A8A"
-                           HorizontalOptions="Fill"
-                           Placeholder="Buscar producto"
-                           FontSize="{dimension:PixelToMaui Pixels=14}" />
+                               Grid.Column="1"
+                               FontFamily="NunitoMedium"
+                               TextColor="#8A8A8A"
+                               HorizontalOptions="Fill"
+                               Placeholder="Buscar producto"
+                               FontSize="{dimension:PixelToMaui Pixels=14}" />
 
                         <Label Grid.Column="2"
-                           Text="{x:Static fonts:FluentUI.dismiss_32_regular}"
-                           FontFamily="IconFont"
-                           FontSize="{dimension:PixelToMaui Pixels=14}"
-                           TextColor="#8A8A8A"
-                           VerticalOptions="Center"
-                           Margin="0,0,10,0"
-                           IsVisible="{Binding IsSearchNotEmpty}">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ClearSearchCommand}" />
-                            </Label.GestureRecognizers>
+                               Text="{x:Static fonts:FluentUI.dismiss_32_regular}"
+                               FontFamily="IconFont"
+                               FontSize="{dimension:PixelToMaui Pixels=14}"
+                               TextColor="#8A8A8A"
+                               VerticalOptions="Center"
+                               Margin="0,0,10,0"
+                               IsVisible="{Binding IsSearchNotEmpty}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ClearSearchCommand}" />
+                                </Label.GestureRecognizers>
                         </Label>
+
+                        <Label Grid.Column="3"
+                               Text="{Binding TotalPedido, StringFormat='Total: ${0:F2}'}"
+                               FontFamily="NunitoBold"
+                               FontSize="{dimension:PixelToMaui Pixels=14}"
+                               TextColor="#333"
+                               VerticalOptions="Center"
+                               Margin="10,0,10,0"/>
                     </Grid>
                 </Border>
             </VerticalStackLayout>

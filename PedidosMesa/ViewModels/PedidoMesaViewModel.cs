@@ -32,7 +32,10 @@ namespace PedidosMesa.ViewModels
         [ObservableProperty]
         private bool isSearchNotEmpty;
 
-        private int _itemsPorPagina = 10;
+        [ObservableProperty]
+        private float totalPedido;
+
+        private int _itemsPorPagina = 12;
         private int _paginaActual = 0;
         private bool _isCargandoMas = false;
 
@@ -58,6 +61,7 @@ namespace PedidosMesa.ViewModels
             _dataService = dataService;
             _todosLosProductos = _dataService.GetProductosPedido();
             _ = FiltrarProductosAsync();
+            RecalcularTotalPedido();
         }
 
         public void SetMostrarPromptComentario(Func<PedidoRequestModel, Task<string>> mostrarPrompt)
@@ -95,6 +99,7 @@ namespace PedidosMesa.ViewModels
             producto.EsModificado = true;
 
             ReubicarProducto(producto, cantidadAnterior);
+            RecalcularTotalPedido();
         });
 
         [RelayCommand]
@@ -108,6 +113,7 @@ namespace PedidosMesa.ViewModels
             await Application.Current.MainPage.ShowPopupAsync(popup);
 
             ReubicarProducto(producto, cantidadAnterior);
+            RecalcularTotalPedido();
         }
 
 
@@ -221,6 +227,12 @@ namespace PedidosMesa.ViewModels
                 _todosLosProductos.Insert(indexTodos, producto);
             }
         }
+
+        private void RecalcularTotalPedido()
+        {
+            TotalPedido = _todosLosProductos.Sum(static p => p.Total);
+        }
+
 
         [RelayCommand]
         private void ConfirmarPedido()

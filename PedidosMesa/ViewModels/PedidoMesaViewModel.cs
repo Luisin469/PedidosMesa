@@ -232,12 +232,5 @@ namespace PedidosMesa.ViewModels
         {
             TotalPedido = _todosLosProductos.Sum(static p => p.Total);
         }
-
-
-        [RelayCommand]
-        private void ConfirmarPedido()
-        {
-            // Aquí agregas la lógica para guardar o confirmar pedido
-        }
     }
 }

@@ -38,6 +38,18 @@ namespace PedidosMesa.Pages.Mesa
             }
         }
 
+        private async void OnConfirmarClicked(object sender, EventArgs e)
+        {
+            if (sender is Button button && button.CommandParameter is MesaResponseModel mesa)
+            {
+                string nombreMesa = mesa.Nombre.Replace("Mesa ", "", StringComparison.OrdinalIgnoreCase);
+
+                if (await ConsultaProductoPorMesaConfirmacionAsync(nombreMesa))
+                {
+                    await Shell.Current.GoToAsync($"CerrarMesaPage?nombreMesa={nombreMesa}");
+                }
+            }
+        }
 
         public async Task<bool> ConsultaProductoPorMesaAsync(string mesa)
         {
@@ -47,6 +59,29 @@ namespace PedidosMesa.Pages.Mesa
             if (productoPedidoData != null && productoPedidoData.Count > 0)
             {
                 var productosConCantidad = productoPedidoData.OrderByDescending(p => p.Cantidad).ToList();
+
+                if (productosConCantidad.Count > 0)
+                {
+                    _dataService.SetProductosPedido(productosConCantidad);
+                    return true;
+                }
+                return false;
+            }
+            else
+            {
+                await DisplayAlert("Advertencia", "No tiene producto.", "Ok");
+                return false;
+            }
+        }
+
+        public async Task<bool> ConsultaProductoPorMesaConfirmacionAsync(string mesa)
+        {
+
+            List<PedidoRequestModel> productoPedidoData = await _pedidoMesaService.ConsultaProductosPorMesa(mesa);
+
+            if (productoPedidoData != null && productoPedidoData.Count > 0)
+            {
+                var productosConCantidad = productoPedidoData.Where(x => x.Cantidad > 0).OrderByDescending(p => p.Cantidad).ToList();
 
                 if (productosConCantidad.Count > 0)
                 {

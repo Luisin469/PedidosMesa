@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fonts="clr-namespace:Fonts"
+             xmlns:dimension="clr-namespace:PedidosMesa.Utils"
+             x:Class="PedidosMesa.Pages.CerrarMesa.CerrarMesaPage"
+             xmlns:models="clr-namespace:PedidosMesa.Models"
+             xmlns:vm="clr-namespace:PedidosMesa.ViewModels"
+             Title="Pedido"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.BackgroundColor="White"
+             BackgroundColor="White">
+
+    <Shell.TitleView>
+        <HorizontalStackLayout HorizontalOptions="Start" VerticalOptions="Center">
+            <Label
+                Text="{Binding Titulo}"
+                FontSize="{dimension:PixelToMaui Pixels=24}"
+                FontFamily="NunitoSemiBold"
+                TextColor="#050F37"/>
+        </HorizontalStackLayout>
+    </Shell.TitleView>
+
+    <AbsoluteLayout>
+        <VerticalStackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"
+                             AbsoluteLayout.LayoutFlags="All"
+                             Padding="{dimension:PixelToMaui Pixels=24}"
+                             Spacing="{dimension:PixelToMaui Pixels=16}"
+                             BackgroundColor="White">
+
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                <Border Grid.Column="0"
+                        Stroke="#050F37"
+                        StrokeThickness="1"
+                        Padding="{dimension:PixelToMaui Pixels=4,0,0,0}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+                    <Entry Placeholder="Identificación"
+                           Text="{Binding Identificacion}"
+                           FontSize="{dimension:PixelToMaui Pixels=14}"
+                           FontFamily="NunitoRegular"
+                           TextColor="#050F37"
+                           BackgroundColor="Transparent"
+                           HeightRequest="{dimension:PixelToMaui Pixels=44}"
+                           VerticalOptions="Center"
+                           Keyboard="Numeric" />
+                </Border>
+
+                <Button Grid.Column="1"
+                        Text="{x:Static fonts:FluentUI.search_48_regular}"
+                        FontFamily="IconFont"
+                        FontSize="{dimension:PixelToMaui Pixels=20}"
+                        BackgroundColor="#050F37"
+                        TextColor="White"
+                        WidthRequest="{dimension:PixelToMaui Pixels=44}"
+                        HeightRequest="{dimension:PixelToMaui Pixels=44}"
+                        CornerRadius="8"
+                        Margin="10,0,0,0"
+                        Clicked="OnBuscarClienteClicked" />
+            </Grid>
+
+
+            <Border Stroke="#050F37"
+                    StrokeThickness="1"
+                    Padding="{dimension:PixelToMaui Pixels=4,0,0,0}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+                <Entry Placeholder="Nombres"
+                       Text="{Binding Nombres}"
+                       FontSize="{dimension:PixelToMaui Pixels=14}"
+                       FontFamily="NunitoRegular"
+                       TextColor="#050F37"
+                       BackgroundColor="Transparent"
+                       HeightRequest="{dimension:PixelToMaui Pixels=44}" 
+                       IsEnabled="{Binding CamposHabilitados}" 
+                       Keyboard="Default" />
+            </Border>
+
+            <Border Stroke="#050F37"
+                    StrokeThickness="1"
+                    Padding="{dimension:PixelToMaui Pixels=4,0,0,0}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+                <Editor Placeholder="Dirección"
+                        Text="{Binding Direccion}"
+                        FontSize="{dimension:PixelToMaui Pixels=14}"
+                        FontFamily="NunitoRegular"
+                        TextColor="#050F37"
+                        BackgroundColor="Transparent"
+                        AutoSize="TextChanges"
+                        HeightRequest="{dimension:PixelToMaui Pixels=80}" 
+                        IsEnabled="{Binding CamposHabilitados}" 
+                        Keyboard="Default" />
+            </Border>
+
+            <Border Stroke="#050F37"
+                    StrokeThickness="1"
+                    Padding="{dimension:PixelToMaui Pixels=4,0,0,0}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+                <Entry Placeholder="Correo"
+                       Text="{Binding Correo}"
+                       FontSize="{dimension:PixelToMaui Pixels=14}"
+                       FontFamily="NunitoRegular"
+                       TextColor="#050F37"
+                       BackgroundColor="Transparent"
+                       HeightRequest="{dimension:PixelToMaui Pixels=44}" 
+                       IsEnabled="{Binding CamposHabilitados}"
+                       Keyboard="Email" />
+            </Border>
+
+            <Border Stroke="#050F37"
+                    StrokeThickness="1"
+                    Padding="{dimension:PixelToMaui Pixels=4,0,0,0}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+                <Entry Placeholder="Teléfono"
+                       Text="{Binding Telefono}"
+                       FontSize="{dimension:PixelToMaui Pixels=14}"
+                       FontFamily="NunitoRegular"
+                       TextColor="#050F37"
+                       BackgroundColor="Transparent"
+                       HeightRequest="{dimension:PixelToMaui Pixels=44}" 
+                       IsEnabled="{Binding CamposHabilitados}"
+                       Keyboard="Numeric" />
+            </Border>
+
+            <Border BackgroundColor="#DFF5DF"
+                    Margin="0,20,0,0"
+                    Padding="16"
+                    StrokeThickness="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+
+                <Label Text="{Binding TotalPedido, StringFormat='TOTAL: ${0:F2}'}"
+                       FontSize="{dimension:PixelToMaui Pixels=18}"
+                       FontFamily="NunitoBold"
+                       TextColor="#388E3C"
+                       HorizontalOptions="Center" />
+            </Border>
+        </VerticalStackLayout>
+
+        <Grid x:Name="LoadingOverlay"
+              AbsoluteLayout.LayoutBounds="0,0,1,1"
+              AbsoluteLayout.LayoutFlags="All"
+              BackgroundColor="#80000000"
+              IsVisible="{Binding IsLoading}"
+              ZIndex="99"
+              InputTransparent="False">
+
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               Color="White"
+                               WidthRequest="50"
+                               HeightRequest="50" />
+        </Grid>
+
+
+        <Border x:Name="FloatingButtonBorder"
+                StrokeThickness="0"
+                BackgroundColor="#388E3C"
+                WidthRequest="{dimension:PixelToMaui Pixels=60}"
+                HeightRequest="{dimension:PixelToMaui Pixels=60}"
+                Padding="0"
+                AbsoluteLayout.LayoutBounds="1,1,60,60"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                Margin="0,0,40,56">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=10}" />
+            </Border.StrokeShape>
+
+            <Button Text="{x:Static fonts:FluentUI.checkmark_32_regular}"
+                    FontFamily="IconFont"
+                    FontSize="{dimension:PixelToMaui Pixels=18}"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    BackgroundColor="Transparent"
+                    WidthRequest="{dimension:PixelToMaui Pixels=60}"
+                    HeightRequest="{dimension:PixelToMaui Pixels=60}"
+                    CornerRadius="{dimension:PixelToMaui Pixels=10}"
+                    Clicked="OnCerrarMesaClicked" />
+        </Border>
+    </AbsoluteLayout>
+</ContentPage>

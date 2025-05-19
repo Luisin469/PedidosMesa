@@ -1,4 +1,5 @@
-﻿using PedidosMesa.Models;
+﻿using Newtonsoft.Json;
+using PedidosMesa.Models;
 using System.Net.Http.Json;
 
 namespace PedidosMesa.Services
@@ -26,6 +27,36 @@ namespace PedidosMesa.Services
             {
                 Console.WriteLine($"Error de conexión: {ex.Message}");
                 return new List<PedidoRequestModel>();
+            }
+        }
+
+        public async Task<bool> ConfirmarPedidoAsync(PedidoMesaCabeceraRequest cabecera, List<PedidoMesaDetalleRequest> detalle)
+        {
+            try
+            {
+                string baseUrl = Preferences.Get("ApiUrl", "http://192.168.100.6/WebServiceApi/api/wsAPP");
+
+                string cabeceraJson = JsonConvert.SerializeObject(cabecera);
+                string detalleJson = JsonConvert.SerializeObject(detalle);
+
+                string cabeceraEncoded = Uri.EscapeDataString(cabeceraJson);
+                string detalleEncoded = Uri.EscapeDataString(detalleJson);
+
+                string url = $"{baseUrl}/setGrabarPedido?cabecera={cabeceraEncoded}&detalle={detalleEncoded}";
+
+                var response = await _httpClient.PostAsync(url, null);
+                response.EnsureSuccessStatusCode();
+
+                string content = await response.Content.ReadAsStringAsync();
+
+                content = content.Trim('"');
+
+                return content.Equals("OK", StringComparison.OrdinalIgnoreCase);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al confirmar pedido: {ex.Message}");
+                return false;
             }
         }
     }

@@ -71,9 +71,9 @@
                                VerticalOptions="Center"
                                Margin="0,0,10,0"
                                IsVisible="{Binding IsSearchNotEmpty}">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding ClearSearchCommand}" />
-                                </Label.GestureRecognizers>
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ClearSearchCommand}" />
+                            </Label.GestureRecognizers>
                         </Label>
 
                         <Label Grid.Column="3"
@@ -203,7 +203,7 @@
                 <RoundRectangle CornerRadius="{dimension:PixelToMaui Pixels=10}" />
             </Border.StrokeShape>
 
-            <Button Text="{x:Static fonts:FluentUI.checkmark_48_regular}"
+            <Button Text="{x:Static fonts:FluentUI.save_32_regular}"
                     FontFamily="IconFont"
                     FontSize="{dimension:PixelToMaui Pixels=16}"
                     FontAttributes="Bold"
@@ -212,7 +212,7 @@
                     WidthRequest="{dimension:PixelToMaui Pixels=60}"
                     HeightRequest="{dimension:PixelToMaui Pixels=60}"
                     CornerRadius="{dimension:PixelToMaui Pixels=10}"
-                    Clicked="FloatingButton_Clicked" />
+                    Clicked="OnFinalizarPedidoClicked" />
         </Border>
 
 

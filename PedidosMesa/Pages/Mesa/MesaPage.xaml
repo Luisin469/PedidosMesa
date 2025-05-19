@@ -147,7 +147,9 @@
                                                 Padding="5,0"
                                                 VerticalOptions="Center"
                                                 BackgroundColor="#388E3C"
-                                                TextColor="White" />
+                                                TextColor="White"
+                                                Clicked="OnConfirmarClicked"
+                                                CommandParameter="{Binding .}" />
 
                                     </HorizontalStackLayout>
                                 </Grid>

@@ -1,6 +1,7 @@
 using PedidosMesa.Models;
 using PedidosMesa.Services;
 using PedidosMesa.ViewModels;
+using static PedidosMesa.Services.DataService;
 
 namespace PedidosMesa.Pages.PedidoMesa
 {
@@ -89,6 +90,7 @@ namespace PedidosMesa.Pages.PedidoMesa
                 if (resultado)
                 {
                     await DisplayAlert("Éxito", "Pedido confirmado.", "OK");
+                    AppState.DebeActualizarMesas = true;
                     await Shell.Current.GoToAsync("..");
                 }
                 else
@@ -109,6 +111,7 @@ namespace PedidosMesa.Pages.PedidoMesa
 
         private async void OnBackClicked(object sender, EventArgs e)
         {
+            AppState.DebeActualizarMesas = true;
             await Shell.Current.GoToAsync("..");
         }
     }

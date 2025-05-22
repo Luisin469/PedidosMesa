@@ -1,6 +1,7 @@
 using PedidosMesa.Models;
 using PedidosMesa.Services;
 using PedidosMesa.ViewModels;
+using static PedidosMesa.Services.DataService;
 
 namespace PedidosMesa.Pages.Mesa
 {
@@ -96,5 +97,17 @@ namespace PedidosMesa.Pages.Mesa
                 return false;
             }
         }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (AppState.DebeActualizarMesas && BindingContext is MesaViewModel vm)
+            {
+                await vm.FiltrarTodosCommand.ExecuteAsync(null);
+                AppState.DebeActualizarMesas = false;
+            }
+        }
+
     }
 }

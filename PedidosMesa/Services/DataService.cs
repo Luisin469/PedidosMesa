@@ -12,6 +12,11 @@ namespace PedidosMesa.Services
 
         public static DataService Instance => _instance ??= new DataService();
 
+        public static class AppState
+        {
+            public static bool DebeActualizarMesas { get; set; } = false;
+        }
+
         private DataService() { }
 
         public void SetLogin(LoginRequestModel login)

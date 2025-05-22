@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using PedidosMesa.Models;
 using PedidosMesa.Services;
+using static PedidosMesa.Services.DataService;
 
 namespace PedidosMesa.ViewModels
 {
@@ -121,6 +122,7 @@ namespace PedidosMesa.ViewModels
                     if (resultado)
                     {
                         await Application.Current.MainPage.DisplayAlert("Éxito", "Pedido cerrado.", "OK");
+                        AppState.DebeActualizarMesas = true;
                         await Shell.Current.GoToAsync("..");
                     }
                     else
